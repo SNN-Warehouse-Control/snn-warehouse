@@ -712,7 +712,6 @@ button.lrow:hover{background:#FAFBF9}
   function menuItem(id) { for (const g of menu()) for (const i of g.items) if (i.id === id) return i; return null; }
   function scopeText() {
     if (can.manager() || can.readonly()) return 'semua gudang';
-    if (role() === 'spv') return 'area ' + ((S.user.areaIds || []).join(', ') || '—');
     return 'gudang ' + (S.user.warehouses.map((w) => w.id).join(', ') || '—');
   }
   function navList(after) {
@@ -1026,13 +1025,12 @@ button.lrow:hover{background:#FAFBF9}
     };
     reload(false);
   }
-  function myAreas(m) { return can.manager() ? m.areas : m.areas.filter((a) => (S.user.areaIds || []).indexOf(a.id) >= 0); }
   function areaLabel(m, id) { const a = m.areas.find((x) => x.id === id); return a ? a.name + ' · ' + id : (id || '—'); }
 
   // ---- User ----
   const UF = { q: '', role: '', status: '' };
   function userPage(page) {
-    managePage(page, 'Manajemen User', can.manager() ? 'Kelola akun, role, dan penugasan gudang' : 'Kelola Petugas Gudang dan SPV di area Anda',
+    managePage(page, 'Manajemen User', can.manager() ? 'Kelola akun, role, dan penugasan gudang' : 'Kelola Petugas Gudang dan SPV di gudang Anda',
       (m, reload) => [h('button', { class: 'btn pri sm', type: 'button', onclick: () => userForm(m, null, reload) }, icon('plus'), 'Tambah user')],
       (out, m, reload) => {
         const st = { page: 0 }; const list = h('div');
@@ -1048,7 +1046,7 @@ button.lrow:hover{background:#FAFBF9}
           searchBox(UF.q, (v) => { UF.q = v; st.page = 0; draw(); }, 'Cari nama atau email…'),
           h('div', { style: 'min-width:170px' }, selectEl([['', 'Semua role']].concat(roleOpts.map((k) => [k, ROLE_LABEL[k]])), UF.role, (v) => { UF.role = v; st.page = 0; draw(); }, { 'aria-label': 'Filter role' })),
           h('div', { style: 'min-width:150px' }, selectEl([['', 'Semua status'], ['active', 'Aktif'], ['inactive', 'Nonaktif']], UF.status, (v) => { UF.status = v; st.page = 0; draw(); }, { 'aria-label': 'Filter status' }))), list));
-        if (role() === 'spv') out.appendChild(note('info', 'info', 'Sebagai SPV, Anda hanya melihat dan mengelola Petugas Gudang di gudang area Anda. Akun Manager dan Internal Audit tidak ditampilkan.'));
+        if (role() === 'spv') out.appendChild(note('info', 'info', 'Sebagai SPV, Anda hanya melihat dan mengelola user yang ditugaskan di gudang Anda. Akun Manager dan Internal Audit tidak ditampilkan.'));
         function draw() {
           const q = UF.q.toLowerCase();
           const rows = m.users.filter((u) => (!UF.role || u.role === UF.role) && (!UF.status || u.status === UF.status) && (!q || (u.name + ' ' + u.email).toLowerCase().indexOf(q) >= 0)).sort((a, b) => String(a.name).localeCompare(String(b.name)));
@@ -1057,7 +1055,7 @@ button.lrow:hover{background:#FAFBF9}
           list.appendChild(paged(rows, 25, st, (slice) => table([
             { label: 'Nama', render: (u) => h('div', { style: 'display:flex;gap:10px;align-items:center' }, h('div', { class: 'avatar', style: 'width:34px;height:34px;font-size:12px', text: initials(u.name) }), h('div', { class: 'cell-main' }, h('b', { text: u.name }), h('small', { text: u.email }))) },
             { label: 'Role', render: (u) => pill(ROLE_LABEL[u.role] || u.role, u.role === 'auditor' ? 'p-audit' : u.role === 'warehouse_user' ? 'p-muted' : 'p-info') },
-            { label: 'Cakupan', render: (u) => u.role === 'spv' ? 'Area ' + (u.areaIds.join(', ') || '—') : ['national_admin', 'manager', 'auditor'].indexOf(u.role) >= 0 ? 'Semua gudang' : (u.warehouseIds.join(', ') || '—') },
+            { label: 'Gudang', render: (u) => ['national_admin', 'manager', 'auditor'].indexOf(u.role) >= 0 ? 'Semua gudang' : (u.warehouseIds.join(', ') || '—') },
             { label: 'Status', render: (u) => u.status === 'active' ? pill('Aktif', 'p-ok', true) : pill('Nonaktif', 'p-muted', true) },
             { label: '', render: (u) => h('button', { class: 'btn xs', type: 'button', onclick: () => userForm(m, u, reload) }, icon('edit', 'sm'), 'Ubah') }
           ], slice, 'Daftar user')));
@@ -1076,8 +1074,8 @@ button.lrow:hover{background:#FAFBF9}
     const scope = h('div');
     const drawScope = () => {
       clear(scope);
-      if (v.role === 'warehouse_user') scope.appendChild(h('div', { class: 'field' }, 'Gudang yang ditugaskan', m.warehouses.length ? h('div', { class: 'checks' }, m.warehouses.map((w) => checkBox(w.id + ' · ' + w.name, v.warehouseIds, w.id))) : h('small', { text: 'Tidak ada gudang dalam cakupan Anda.' }), h('small', { text: 'Minimal satu gudang.' })));
-      else if (v.role === 'spv') scope.appendChild(h('div', { class: 'field' }, 'Area tanggung jawab', h('div', { class: 'checks' }, myAreas(m).map((a) => checkBox(a.name + ' (' + a.id + ')', v.areaIds, a.id))), h('small', { text: 'SPV dapat mengakses semua gudang di area ini.' })));
+      if (v.role === 'warehouse_user' || v.role === 'spv') scope.appendChild(h('div', { class: 'field' }, 'Gudang yang ditugaskan', m.warehouses.length ? h('div', { class: 'checks' }, m.warehouses.map((w) => checkBox(w.id + ' · ' + w.name, v.warehouseIds, w.id))) : h('small', { text: 'Tidak ada gudang dalam cakupan Anda.' }),
+        h('small', { text: v.role === 'spv' ? 'Minimal satu gudang. SPV dapat mengakses dan mengelola checklist, foto, user, dan template untuk gudang yang dicentang.' : 'Minimal satu gudang. Petugas hanya dapat mengakses gudang yang dicentang.' })));
       else scope.appendChild(note('info', 'info', (ROLE_LABEL[v.role] || v.role) + (v.role === 'auditor' ? ' memiliki akses hanya-baca ke semua gudang.' : ' memiliki akses ke semua gudang.')));
     };
     drawScope();
@@ -1096,11 +1094,11 @@ button.lrow:hover{background:#FAFBF9}
     const sh = openSheet(u ? 'Ubah user' : 'Tambah user', body, [h('button', { class: 'btn sm', type: 'button', onclick: () => sh.close() }, 'Batal'), save]);
     save.addEventListener('click', () => {
       clear(err);
-      const msg = !v.name.trim() ? 'Nama wajib diisi.' : !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email.trim()) ? 'Email tidak valid.' : v.role === 'warehouse_user' && !v.warehouseIds.length ? 'Pilih minimal satu gudang.' : v.role === 'spv' && !v.areaIds.length ? 'Pilih minimal satu area.' : '';
+      const msg = !v.name.trim() ? 'Nama wajib diisi.' : !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email.trim()) ? 'Email tidak valid.' : (v.role === 'warehouse_user' || v.role === 'spv') && !v.warehouseIds.length ? 'Pilih minimal satu gudang.' : '';
       if (msg) { err.appendChild(note('err', 'alert', msg)); return; }
       withBusy(save, async () => {
         try {
-          await api('user.save', { userId: v.userId, email: v.email.trim(), name: v.name.trim(), role: v.role, warehouseIds: v.role === 'warehouse_user' ? v.warehouseIds : [], areaIds: v.role === 'spv' ? v.areaIds : [], status: v.status });
+          await api('user.save', { userId: v.userId, email: v.email.trim(), name: v.name.trim(), role: v.role, warehouseIds: (v.role === 'warehouse_user' || v.role === 'spv') ? v.warehouseIds : [], areaIds: [], status: v.status });
           sh.close(); toast('User ' + v.name.trim() + ' tersimpan.'); reload();
         } catch (e) { err.appendChild(note('err', 'alert', e.message || 'Gagal menyimpan.')); }
       });
@@ -1109,8 +1107,8 @@ button.lrow:hover{background:#FAFBF9}
 
   // ---- Gudang ----
   function gudangPage(page) {
-    managePage(page, 'Manajemen Gudang', 'Gudang aktif, area, dan folder Google Drive dokumentasi',
-      (m, reload) => [h('button', { class: 'btn pri sm', type: 'button', onclick: () => gudangForm(m, null, reload) }, icon('plus'), 'Tambah gudang')],
+    managePage(page, 'Manajemen Gudang', can.manager() ? 'Gudang aktif, area, dan folder Google Drive dokumentasi' : 'Gudang yang ditugaskan kepada Anda',
+      (m, reload) => can.manager() ? [h('button', { class: 'btn pri sm', type: 'button', onclick: () => gudangForm(m, null, reload) }, icon('plus'), 'Tambah gudang')] : [],
       (out, m, reload) => {
         let q = ''; const list = h('div');
         out.appendChild(h('div', { class: 'card' }, h('div', { class: 'toolbar' }, searchBox('', (x) => { q = x.toLowerCase(); draw(); }, 'Cari kode atau nama gudang…')), list));
@@ -1131,11 +1129,11 @@ button.lrow:hover{background:#FAFBF9}
           ], rows, 'Daftar gudang'));
         }
         draw();
-        out.appendChild(note('info', 'info', 'Menyimpan ulang gudang yang pernah dinonaktifkan dengan kode yang sama akan mengaktifkannya kembali.'));
+        out.appendChild(note('info', 'info', can.manager() ? 'Menyimpan ulang gudang yang pernah dinonaktifkan dengan kode yang sama akan mengaktifkannya kembali.' : 'Menambah gudang baru dan mengubah area gudang hanya dapat dilakukan Manager.'));
       });
   }
   function gudangForm(m, w, reload) {
-    const areas = myAreas(m);
+    const areas = m.areas;
     const v = w ? { id: w.id, name: w.name, areaId: w.areaId || (areas[0] || {}).id || '', folder: w.driveFolderId || '' } : { id: '', name: '', areaId: (areas[0] || {}).id || '', folder: '' };
     const err = h('div');
     const idI = h('input', { class: 'input', value: v.id, maxlength: '3', autocomplete: 'off', style: 'text-transform:uppercase', readonly: w ? true : null }); idI.addEventListener('input', () => { v.id = idI.value.toUpperCase(); });
@@ -1145,7 +1143,7 @@ button.lrow:hover{background:#FAFBF9}
     const body = h('div', { style: 'display:flex;flex-direction:column;gap:14px' },
       field('Kode gudang', idI, w ? 'Kode tidak dapat diubah.' : 'Tepat 3 huruf, misalnya SMD. Kode lain akan membuat upload foto gagal.'),
       field('Nama gudang', nameI),
-      field('Area', areas.length ? selectEl(areas.map((a) => [a.id, a.name + ' (' + a.id + ')']), v.areaId, (x) => { v.areaId = x; }) : h('span', { class: 'muted', text: 'Belum ada area. Tambahkan area terlebih dahulu.' })),
+      field('Area', areas.length ? selectEl(areas.map((a) => [a.id, a.name + ' (' + a.id + ')']), v.areaId, (x) => { v.areaId = x; }, can.manager() ? null : { disabled: true }) : h('span', { class: 'muted', text: 'Belum ada area. Tambahkan area terlebih dahulu.' }), can.manager() ? null : 'Area hanya dapat diubah oleh Manager.'),
       field('ID folder Google Drive', folderI, 'Folder harus berada di dalam folder utama SNN WAREHOUSE CONTROL dan berstatus privat. Boleh tempel link folder.'),
       err);
     const save = h('button', { class: 'btn pri sm', type: 'button' }, icon('check'), 'Simpan');
@@ -1163,14 +1161,14 @@ button.lrow:hover{background:#FAFBF9}
 
   // ---- Area ----
   function areaPage(page) {
-    managePage(page, 'Manajemen Area', 'Pengelompokan gudang untuk cakupan SPV',
+    managePage(page, 'Manajemen Area', 'Pengelompokan gudang untuk filter dan laporan · akses SPV ditentukan per gudang di Manajemen User',
       (m, reload) => [h('button', { class: 'btn pri sm', type: 'button', onclick: () => areaForm(null, reload) }, icon('plus'), 'Tambah area')],
       (out, m, reload) => {
         if (!m.areas.length) out.appendChild(h('div', { class: 'card' }, emptyState('area', 'Belum ada area', '')));
         else out.appendChild(h('div', { class: 'card' }, table([
           { label: 'Area', render: (a) => h('div', { class: 'cell-main' }, h('b', { text: a.name }), h('small', { text: a.id })) },
           { label: 'Gudang', render: (a) => { const ws = m.warehouses.filter((w) => w.areaId === a.id); return ws.length ? ws.map((w) => w.id).join(', ') : h('span', { class: 'muted', text: 'Belum ada gudang' }); } },
-          { label: 'SPV aktif', num: true, render: (a) => m.users.filter((u) => u.role === 'spv' && u.status === 'active' && u.areaIds.indexOf(a.id) >= 0).length },
+          { label: 'SPV aktif', num: true, render: (a) => { const ws = m.warehouses.filter((w) => w.areaId === a.id).map((w) => w.id); return m.users.filter((u) => u.role === 'spv' && u.status === 'active' && u.warehouseIds.some((x) => ws.indexOf(x) >= 0)).length; } },
           { label: '', render: (a) => h('button', { class: 'btn xs', type: 'button', onclick: () => areaForm(a, reload) }, icon('edit', 'sm'), 'Ubah') }
         ], m.areas, 'Daftar area')));
         out.appendChild(note('info', 'info', 'Menonaktifkan area belum didukung backend. Untuk memindahkan gudang ke area lain, ubah area di Manajemen Gudang.'));
@@ -1199,11 +1197,11 @@ button.lrow:hover{background:#FAFBF9}
     managePage(page, 'Template Checklist', 'Item pemeriksaan Opening dan Closing', null, (out, m, reload) => {
       out.appendChild(note('info', 'info', can.manager()
         ? 'Perubahan disimpan sebagai versi baru dan menggantikan versi aktif. Checklist yang sudah dibuka tetap memakai versinya. Item wajib perusahaan tidak dapat dihapus.'
-        : 'Perubahan oleh SPV disimpan sebagai versi khusus area Anda. Item wajib perusahaan tidak dapat diubah atau dihapus.'));
+        : 'Perubahan oleh SPV disimpan sebagai versi khusus untuk gudang Anda. Item wajib perusahaan tidak dapat diubah atau dihapus.'));
       if (!m.templates.length) { out.appendChild(h('div', { class: 'card' }, emptyState('template', 'Belum ada template', ''))); return; }
       ['OPENING', 'CLOSING'].forEach((s) => m.templates.filter((t) => t.session === s).forEach((t) => {
         out.appendChild(h('div', { class: 'card' },
-          h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: t.name }), h('p', { text: SESSION_LABEL[s] + ' · ' + t.templateId + ' · versi ' + t.version + ' · ' + t.items.length + ' item' })),
+          h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: t.name }), h('p', { text: SESSION_LABEL[s] + ' · ' + t.templateId + ' · versi ' + t.version + ' · ' + t.items.length + ' item' + ((t.warehouseIds || []).length ? ' · khusus gudang ' + t.warehouseIds.join(', ') : (t.areaIds || []).length ? ' · khusus area ' + t.areaIds.join(', ') : ' · semua gudang') })),
             can.readonly() ? null : h('button', { class: 'btn xs', type: 'button', onclick: () => templateForm(m, t, reload) }, icon('edit', 'sm'), 'Ubah')),
           h('div', { class: 'list' }, t.items.map((i) => h('div', { class: 'lrow' }, h('span', { class: 'num', text: i.sort || '' }),
             h('div', { class: 'grow' }, h('b', { text: i.name }), h('small', { text: i.code + (i.areaIds.length ? ' · area ' + i.areaIds.join(', ') : '') + (i.warehouseIds.length ? ' · gudang ' + i.warehouseIds.join(', ') : '') })),
