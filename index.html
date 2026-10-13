@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E5A47">
+<title>SNN Warehouse Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<script src="config.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F3F4F1;color:#18211C;font:15px/1.45 'Plus Jakarta Sans',system-ui,sans-serif}
+h1,h2,p{margin:0}
+.top{position:sticky;top:0;z-index:20;background:#0E5A47;color:#fff}
+.top-in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.logo{width:38px;height:38px;border-radius:10px;background:#fff;color:#0E5A47;font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
+.brand{flex:1;min-width:0;display:flex;flex-direction:column}
+.brand b{font-size:15px}.brand span{font-size:12px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top button{border:0;background:rgba(255,255,255,.16);color:#fff;font:inherit;font-size:13px;font-weight:700;min-height:38px;padding:0 12px;border-radius:999px;cursor:pointer}
+.live{background:#E3EFEA;color:#0B4A3A;font-size:12px;font-weight:600;text-align:center;padding:6px 16px}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 120px;display:flex;flex-direction:column;gap:14px}
+.card{background:#fff;border:1px solid #DCE0DA;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.muted{color:#4A5550;font-size:13px}
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;font-weight:600;color:#5E6863}
+.btn{min-height:48px;border-radius:12px;border:1.5px solid #DCE0DA;background:#fff;color:#18211C;font:inherit;font-weight:700;padding:0 16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.btn.pri{background:#0E5A47;border-color:#0E5A47;color:#fff}
+.btn.sm{min-height:40px;font-size:13px;padding:0 12px}
+.btn:disabled{opacity:.5;cursor:default}
+.field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:#2C3631}
+select{font:inherit;font-size:15px;border:1.5px solid #CDD3CD;border-radius:12px;padding:10px 12px;background:#fff;min-height:46px;width:100%}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#E3E7E1;border-radius:14px;padding:4px;gap:4px}
+.tabs button{min-height:44px;border:0;border-radius:10px;background:transparent;font:inherit;font-weight:700;font-size:13px;color:#4A5550;cursor:pointer}
+.tabs button.on{background:#fff;color:#18211C;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.grid2{display:grid;grid-template-columns:1fr;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.t-ok{background:#E4F3EA;color:#14653A}.t-bad{background:#FBE9E7;color:#9C1F17}.t-warn{background:#FFF1D6;color:#714100}.t-muted{background:#ECEEEA;color:#4E5853}
+.item{background:#fff;border:1px solid #DCE0DA;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.item-h{display:flex;gap:12px;align-items:flex-start}
+.num{width:28px;height:28px;border-radius:8px;background:#ECEEEA;font-size:13px;font-weight:800;display:grid;place-items:center;flex:none}
+.item-h b{display:block;font-size:15px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.seg button{min-height:48px;border-radius:12px;border:1.5px solid #CDD3CD;background:#fff;font:inherit;font-weight:700;font-size:14px;color:#3E4843;cursor:pointer}
+.seg button.on-ok{background:#1B7A43;border-color:#1B7A43;color:#fff}
+.seg button.on-tidak_ok{background:#B3261E;border-color:#B3261E;color:#fff}
+.seg button.on-na{background:#4E5853;border-color:#4E5853;color:#fff}
+.strip{display:flex;gap:10px;overflow-x:auto;padding:8px 8px 4px 2px}
+.tile{position:relative;flex:none;width:84px}
+.tile-btn{width:84px;height:84px;border-radius:12px;border:1.5px solid #DCE0DA;padding:0;overflow:hidden;background:#E2E6E0;cursor:pointer;display:grid;place-items:center;color:#5E6863;font:inherit;font-size:11px}
+.tile-btn img{width:100%;height:100%;object-fit:cover;display:block}
+.tile-x{position:absolute;top:-8px;right:-8px;width:32px;height:32px;border-radius:50%;border:2px solid #fff;background:#18211C;color:#fff;display:grid;place-items:center;cursor:pointer;padding:0;font-size:16px;line-height:1}
+.badge{display:block;margin-top:4px;font-size:11px;font-weight:800;text-align:center;border-radius:6px;padding:2px 4px}
+.b-pending{background:#ECEEEA;color:#4E5853}.b-uploading{background:#FFF1D6;color:#714100}.b-done{background:#E4F3EA;color:#14653A}.b-failed{background:#FBE9E7;color:#9C1F17}
+.up2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.upload{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;border:1.5px dashed #8E9893;border-radius:12px;font-weight:700;font-size:14px;color:#0E5A47;cursor:pointer;background:#FAFBF9;position:relative}
+.upload input{position:absolute;width:1px;height:1px;opacity:0}
+.upload:focus-within{outline:3px solid #CFE3DA}
+.note{font-size:13px;border-radius:12px;padding:10px 12px}
+.n-err{background:#FBE9E7;color:#9C1F17;font-weight:600}.n-warn{background:#FFF1D6;color:#714100;font-weight:600}.n-info{background:#E6EEFB;color:#184C9C}
+.hidden{display:none!important}
+.viewer{position:fixed;inset:0;z-index:70;background:#0D1210;color:#fff;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.vw-top{display:flex;align-items:center;gap:12px;padding:10px 12px}
+.vw-top b{flex:1;min-width:0;font-size:14px;word-break:break-all}
+.vw-stage{display:grid;place-items:center;min-height:0;padding:0 8px;overflow:hidden}
+.vw-stage img{max-width:100%;max-height:100%;object-fit:contain}
+.vw-meta{background:#18211C;padding:14px 16px 20px;max-height:38vh;overflow:auto;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.vw-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px}.vw-row span:first-child{color:#9FAAA4;font-weight:600}.vw-row span:last-child{word-break:break-all}
+.x{width:44px;height:44px;border-radius:12px;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;cursor:pointer}
+.foot{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(243,244,241,.97);border-top:1px solid #DCE0DA;padding-bottom:env(safe-area-inset-bottom)}
+.foot-in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;gap:10px;align-items:center}
+.foot-in span{flex:1;font-size:13px;font-weight:600}
+@media(min-width:760px){.grid2{grid-template-columns:1fr 1fr}.wrap{padding-left:24px;padding-right:24px}}
+@media(min-width:900px){.viewer{grid-template-columns:minmax(0,1fr) 380px;grid-template-rows:auto minmax(0,1fr)}.vw-top{grid-column:1/-1}.vw-meta{max-height:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="logo">SNN</div>
+  <div class="brand"><b>Warehouse Control</b><span id="hdrSub">Upload dokumentasi foto</span></div>
+  <button id="logoutBtn" type="button" class="hidden">Keluar</button>
+</div>
+<div class="live">Tahap 1 · foto benar-benar disimpan ke Google Drive SNN · jawaban OK/Tidak OK/N/A belum disimpan ke server</div>
+</header>
+
+<main class="wrap">
+  <div id="cfgErr" class="note n-err hidden">config.js belum diisi. Salin config.example.js menjadi config.js, lalu isi API_URL dan GOOGLE_CLIENT_ID.</div>
+  <div id="srv" class="muted">Memeriksa koneksi server…</div>
+  <div id="msg" class="note n-err hidden" role="alert"></div>
+
+  <section id="loginCard" class="card">
+    <h1 style="font-size:20px;font-weight:800">Masuk</h1>
+    <p class="muted">Gunakan akun Google yang sudah didaftarkan admin. Akun yang belum terdaftar akan ditolak.</p>
+    <div id="gbtn" style="min-height:44px"></div>
+  </section>
+
+  <section id="pickCard" class="card hidden">
+    <div><b id="who"></b><div class="muted" id="whoMeta"></div></div>
+    <div class="grid2">
+      <label class="field">Gudang<select id="wh"></select></label>
+      <div class="field">Sesi<div class="tabs" role="group" aria-label="Sesi checklist"><button type="button" id="tO" class="on">Opening</button><button type="button" id="tC">Closing</button></div></div>
+    </div>
+    <button class="btn pri" id="openBtn" type="button">Buka checklist hari ini</button>
+  </section>
+
+  <section id="runCard" class="card hidden">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="flex:1;min-width:0"><h2 id="runTitle" style="font-size:20px;font-weight:800"></h2><div class="muted" id="runDate"></div><div class="code" id="runId"></div></div>
+      <span class="pill t-muted" id="runPhotos"></span>
+    </div>
+    <div class="note n-info">Pilih status item, ambil atau pilih foto, lalu tekan <b>Upload</b>. Foto ditandai <b>Berhasil</b> hanya setelah server mengonfirmasi file tersimpan di Google Drive.</div>
+  </section>
+  <div id="items" style="display:flex;flex-direction:column;gap:12px"></div>
+</main>
+
+<div class="foot hidden" id="foot"><div class="foot-in"><span id="footTxt"></span><button class="btn pri" id="uploadAll" type="button">Upload semua</button></div></div>
+
+<div class="viewer hidden" id="viewer" role="dialog" aria-modal="true" aria-label="Foto ukuran penuh">
+  <div class="vw-top"><b id="vTitle"></b><button class="x" id="vClose" type="button" aria-label="Tutup">×</button></div>
+  <div class="vw-stage"><img id="vImg" alt=""></div>
+  <div class="vw-meta" id="vMeta"></div>
+</div>
+
+<script>
+(function () {
+  const C = window.SNN_CONFIG || {};
+  const $ = (id) => document.getElementById(id);
+  const S = { session: null, user: null, run: null, sess: 'OPENING', items: {} };
+  const STATUS_LABEL = { ok: 'OK', tidak_ok: 'Tidak OK', na: 'N/A' };
+  const PH_LABEL = { pending: 'Menunggu', uploading: 'Mengunggah…', done: 'Berhasil ✓', failed: 'Gagal' };
+  const configured = C.API_URL && !C.API_URL.includes('ISI_') && C.GOOGLE_CLIENT_ID && !C.GOOGLE_CLIENT_ID.includes('ISI_');
+  if (!configured) $('cfgErr').classList.remove('hidden');
+
+  function showErr(t) { const m = $('msg'); m.textContent = t || ''; m.classList.toggle('hidden', !t); }
+  function el(tag, attrs, text) { const e = document.createElement(tag); Object.entries(attrs || {}).forEach(([k, v]) => { if (k === 'class') e.className = v; else if (k.startsWith('on')) e[k] = v; else e.setAttribute(k, v); }); if (text != null) e.textContent = text; return e; }
+  const uid = () => 'req-' + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(16).slice(2));
+
+  async function api(action, body) {
+    let res;
+    try { res = await fetch(C.API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ action, session: S.session }, body || {})), redirect: 'follow' }); }
+    catch (e) { throw { code: 'NETWORK', message: 'Tidak ada koneksi ke server. Periksa internet, lalu coba lagi.' }; }
+    let j; try { j = await res.json(); } catch (e) { throw { code: 'NETWORK', message: 'Respons server tidak terbaca. Coba lagi.' }; }
+    if (!j.ok) { if ((j.error.code === 'UNAUTHENTICATED' || j.error.code === 'UNAUTHORIZED') && action !== 'login') logout(); throw j.error; }
+    return j.data;
+  }
+
+  // ---------- Cek server ----------
+  if (configured) fetch(C.API_URL, { redirect: 'follow' }).then((r) => r.json()).then((j) => { $('srv').textContent = j.ok ? '● Server terhubung' : 'Server membalas tidak normal'; $('srv').style.color = j.ok ? '#14653A' : '#9C1F17'; })
+    .catch(() => { $('srv').textContent = 'Server belum bisa dihubungi (cek API_URL dan deployment Apps Script).'; $('srv').style.color = '#9C1F17'; });
+  else $('srv').classList.add('hidden');
+
+  // ---------- Login ----------
+  const gsiWait = setInterval(() => {
+    if (!window.google || !google.accounts || !configured) return; clearInterval(gsiWait);
+    google.accounts.id.initialize({ client_id: C.GOOGLE_CLIENT_ID, callback: onCredential });
+    google.accounts.id.renderButton($('gbtn'), { theme: 'outline', size: 'large', text: 'signin_with', locale: 'id' });
+  }, 150);
+  async function onCredential(resp) {
+    showErr('');
+    try { const d = await api('login', { idToken: resp.credential }); S.session = d.session; S.user = d.user; try { sessionStorage.setItem('snn_s', d.session); } catch (e) {} renderUser(); }
+    catch (e) { showErr(e.message || 'Login gagal.'); }
+  }
+  function logout() {
+    S.session = null; S.user = null; S.run = null; S.items = {};
+    try { sessionStorage.removeItem('snn_s'); } catch (e) {}
+    ['pickCard', 'runCard', 'logoutBtn', 'foot'].forEach((id) => $(id).classList.add('hidden'));
+    $('items').innerHTML = ''; $('loginCard').classList.remove('hidden'); $('hdrSub').textContent = 'Upload dokumentasi foto';
+  }
+  $('logoutBtn').onclick = () => { if (pendingCount() && !confirm('Ada foto yang belum diunggah. Tetap keluar?')) return; logout(); };
+  (async () => { try { const s = sessionStorage.getItem('snn_s'); if (s && configured) { S.session = s; S.user = (await api('me')).user; renderUser(); } } catch (e) {} })();
+
+  function renderUser() {
+    $('loginCard').classList.add('hidden'); $('pickCard').classList.remove('hidden'); $('logoutBtn').classList.remove('hidden');
+    $('who').textContent = S.user.name + ' · ' + S.user.email;
+    $('whoMeta').textContent = (S.user.role === 'national_admin' ? 'National admin' : 'Petugas gudang') + ' · akses: ' + S.user.warehouses.map((w) => w.id).join(', ');
+    $('wh').innerHTML = '';
+    S.user.warehouses.forEach((w) => $('wh').appendChild(el('option', { value: w.id }, w.id + ' · ' + w.name)));
+  }
+  $('tO').onclick = () => { S.sess = 'OPENING'; $('tO').className = 'on'; $('tC').className = ''; };
+  $('tC').onclick = () => { S.sess = 'CLOSING'; $('tC').className = 'on'; $('tO').className = ''; };
+
+  // ---------- Checklist ----------
+  $('openBtn').onclick = async () => {
+    if (pendingCount() && !confirm('Ada foto yang belum diunggah di checklist ini. Tetap ganti checklist?')) return;
+    showErr(''); $('openBtn').disabled = true;
+    try {
+      const d = await api('run.open', { warehouseId: $('wh').value, checklistSession: S.sess });
+      S.run = d.run; S.items = {};
+      d.items.forEach((it) => { S.items[it.itemCode] = { code: it.itemCode, name: it.name, status: '', photos: [] }; });
+      d.photos.filter((p) => !p.retiredInVersion).forEach((p) => { const it = S.items[p.itemCode]; if (it) it.photos.push({ key: p.photoId, state: 'done', photo: p, thumb: null }); if (it && !it.status) it.status = p.itemStatus; });
+      renderRun(); loadThumbs();
+    } catch (e) { showErr(e.message); }
+    $('openBtn').disabled = false;
+  };
+
+  function renderRun() {
+    const r = S.run;
+    $('runCard').classList.remove('hidden');
+    $('runTitle').textContent = r.warehouseId + ' · ' + (r.session === 'OPENING' ? 'Opening' : 'Closing') + ' Checklist';
+    $('runDate').textContent = new Date(r.date + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    $('runId').textContent = r.runId;
+    $('hdrSub').textContent = r.warehouseId + ' · ' + (r.session === 'OPENING' ? 'Opening' : 'Closing');
+    const box = $('items'); box.innerHTML = '';
+    Object.values(S.items).forEach((it, i) => { it.no = i + 1; it.node = el('div', { class: 'item' }); box.appendChild(it.node); renderItem(it); });
+    updateFoot();
+  }
+
+  function renderItem(it) {
+    const n = it.node; n.innerHTML = '';
+    const h = el('div', { class: 'item-h' });
+    h.appendChild(el('span', { class: 'num' }, it.no));
+    const t = el('div', { style: 'flex:1;min-width:0' }); t.appendChild(el('b', {}, it.name)); t.appendChild(el('span', { class: 'code' }, it.code)); h.appendChild(t);
+    const done = it.photos.filter((p) => p.state === 'done').length;
+    if (it.photos.length) h.appendChild(el('span', { class: 'pill ' + (done === it.photos.length ? 't-ok' : 't-muted') }, done + '/' + it.photos.length + ' di Drive'));
+    n.appendChild(h);
+
+    const seg = el('div', { class: 'seg', role: 'group', 'aria-label': 'Status ' + it.code });
+    ['ok', 'tidak_ok', 'na'].forEach((s) => seg.appendChild(el('button', { type: 'button', class: it.status === s ? 'on-' + s : '', onclick: () => { it.status = s; renderItem(it); } }, STATUS_LABEL[s])));
+    n.appendChild(seg);
+
+    if (it.photos.length) {
+      const strip = el('div', { class: 'strip' });
+      it.photos.forEach((p) => {
+        const tile = el('div', { class: 'tile' });
+        const b = el('button', { type: 'button', class: 'tile-btn', 'aria-label': 'Lihat foto', onclick: () => openViewer(it, p) });
+        const src = p.state === 'done' ? p.thumb : p.localUrl;
+        if (src) b.appendChild(el('img', { src: src, alt: '' })); else b.textContent = 'memuat…';
+        tile.appendChild(b);
+        if (p.state === 'pending' || p.state === 'failed') tile.appendChild(el('button', { type: 'button', class: 'tile-x', 'aria-label': 'Batalkan foto ini', onclick: () => { it.photos = it.photos.filter((x) => x !== p); URL.revokeObjectURL(p.localUrl); renderItem(it); updateFoot(); } }, '×'));
+        tile.appendChild(el('span', { class: 'badge b-' + p.state }, PH_LABEL[p.state]));
+        strip.appendChild(tile);
+      });
+      n.appendChild(strip);
+      it.photos.filter((p) => p.state === 'failed').forEach((p) => n.appendChild(el('div', { class: 'note n-err' }, 'Gagal: ' + p.error)));
+      it.photos.filter((p) => p.warn && p.state !== 'done').forEach((p) => n.appendChild(el('div', { class: 'note n-warn' }, p.warn)));
+    }
+
+    const up = el('div', { class: 'up2' });
+    const mkInput = (label, attrs) => { const l = el('label', { class: 'upload' }, label); const inp = el('input', Object.assign({ type: 'file' }, attrs)); inp.onchange = (ev) => addFiles(it, ev); l.appendChild(inp); return l; };
+    up.appendChild(mkInput('Kamera', { accept: 'image/*', capture: 'environment' }));
+    const gal = mkInput('Galeri / file', { accept: 'image/jpeg,image/png,image/webp,image/heic,image/heif' }); gal.querySelector('input').multiple = true; up.appendChild(gal);
+    n.appendChild(up);
+
+    const waiting = it.photos.filter((p) => p.state === 'pending' || p.state === 'failed').length;
+    if (waiting) n.appendChild(el('button', { type: 'button', class: 'btn pri', onclick: () => uploadItem(it) }, (it.photos.some((p) => p.state === 'failed') ? 'Coba lagi · ' : 'Upload ') + waiting + ' foto'));
+    if (it.busy) n.appendChild(el('div', { class: 'muted', role: 'status' }, 'Mengompres foto…'));
+  }
+
+  // ---------- Tambah foto (belum diunggah) ----------
+  async function addFiles(it, ev) {
+    const files = Array.from(ev.target.files || []); ev.target.value = '';
+    if (!files.length) return;
+    if (!it.status) { showErr('Pilih status item (OK / Tidak OK / N/A) sebelum menambahkan foto ' + it.code + '.'); return; }
+    showErr(''); it.busy = true; renderItem(it);
+    for (const f of files) {
+      if (!/^image\//.test(f.type) && !/\.(jpe?g|png|webp|heic|heif)$/i.test(f.name)) { showErr(f.name + ' bukan file foto.'); continue; }
+      if (f.size > 25 * 1024 * 1024) { showErr(f.name + ' lebih dari 25 MB.'); continue; }
+      try {
+        const c = await compress(f);
+        const fileDay = new Date(f.lastModified).toLocaleDateString('sv-SE', { timeZone: 'Asia/Makassar' });
+        it.photos.push({ key: uid(), state: 'pending', status: it.status, blob: c.blob, localUrl: URL.createObjectURL(c.blob), w: c.w, h: c.h, orig: f.size, name: f.name, fileTime: new Date(f.lastModified).toISOString(),
+          warn: fileDay !== S.run.date ? 'Perhatian: tanggal file ' + f.name + ' adalah ' + fileDay + ', berbeda dari tanggal checklist ' + S.run.date + '.' : '' });
+      } catch (e) { showErr('Foto ' + f.name + ' tidak bisa dibaca browser. Coba ambil ulang dengan kamera.'); }
+    }
+    it.busy = false; renderItem(it); updateFoot();
+  }
+  function compress(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file); const img = new Image();
+      img.onload = () => {
+        const s = Math.min(1, 1920 / Math.max(img.naturalWidth, img.naturalHeight));
+        const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * s); c.height = Math.round(img.naturalHeight * s);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+        c.toBlob((b) => (b ? resolve({ blob: b, w: c.width, h: c.height }) : reject(new Error('encode'))), 'image/jpeg', 0.85);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('decode')); };
+      img.src = url;
+    });
+  }
+  const toB64 = (blob) => new Promise((r) => { const fr = new FileReader(); fr.onload = () => r(String(fr.result).split(',')[1]); fr.readAsDataURL(blob); });
+
+  // ---------- Upload ----------
+  async function uploadItem(it) {
+    for (const p of it.photos.filter((x) => x.state === 'pending' || x.state === 'failed')) await uploadOne(it, p);
+  }
+  async function uploadOne(it, p) {
+    p.state = 'uploading'; p.error = ''; renderItem(it); updateFoot();
+    try {
+      // key (clientRequestId) tetap sama saat dicoba lagi → server tidak membuat file ganda
+      const d = await api('photo.upload', { runId: S.run.runId, itemCode: it.code, itemStatus: p.status, clientRequestId: p.key, dataBase64: await toB64(p.blob), width: p.w, height: p.h, origSize: p.orig, clientFileTime: p.fileTime });
+      if (!d || !d.photo || !d.photo.storedInDrive) throw { message: 'Server tidak mengonfirmasi penyimpanan.' };
+      p.state = 'done'; p.photo = d.photo; p.thumb = p.localUrl;
+    } catch (e) {
+      p.state = 'failed'; p.error = e.message || 'Upload gagal.';
+      if (e.code === 'FORBIDDEN' || e.code === 'BAD_TYPE' || e.code === 'LOCKED') p.error += ' (tidak bisa dicoba lagi)';
+    }
+    renderItem(it); updateFoot();
+  }
+  function pendingCount() { return Object.values(S.items).reduce((n, it) => n + it.photos.filter((p) => p.state === 'pending' || p.state === 'failed').length, 0); }
+  function updateFoot() {
+    const all = Object.values(S.items).flatMap((it) => it.photos);
+    const done = all.filter((p) => p.state === 'done').length, up = all.filter((p) => p.state === 'uploading').length, wait = pendingCount();
+    $('runPhotos').textContent = done + ' foto di Drive';
+    $('foot').classList.toggle('hidden', !wait && !up);
+    $('footTxt').textContent = up ? 'Mengunggah ' + up + ' foto…' : wait + ' foto belum diunggah';
+    $('uploadAll').disabled = !!up || !wait;
+    window.onbeforeunload = wait || up ? () => 'Ada foto yang belum diunggah.' : null;
+  }
+  $('uploadAll').onclick = async () => { for (const it of Object.values(S.items)) await uploadItem(it); };
+
+  // ---------- Thumbnail & penampil (lewat server, bukan link Drive) ----------
+  async function loadThumbs() {
+    for (const it of Object.values(S.items)) for (const p of it.photos) {
+      if (p.state !== 'done' || p.thumb) continue;
+      try { const d = await api('photo.get', { photoId: p.photo.photoId, variant: 'thumb' }); p.thumb = 'data:' + d.mime + ';base64,' + d.dataBase64; renderItem(it); } catch (e) { /* tetap tampil "memuat…" */ }
+    }
+  }
+  async function openViewer(it, p) {
+    let src = p.localUrl, meta;
+    if (p.state === 'done') {
+      try { const d = await api('photo.get', { photoId: p.photo.photoId }); src = 'data:' + d.mime + ';base64,' + d.dataBase64; }
+      catch (e) { showErr(e.message); return; }
+      const m = p.photo;
+      meta = [['Status upload', 'Tersimpan di Google Drive'], ['Nama file', m.fileName], ['Gudang', m.warehouseId], ['Tanggal', m.date], ['Sesi', m.session], ['ID checklist', m.runId], ['Item', m.itemCode + ' · ' + m.itemName], ['Status item', STATUS_LABEL[m.itemStatus] || m.itemStatus], ['Diunggah', m.uploadedAt + ' oleh ' + m.uploadedBy], ['Ukuran', Math.round(m.sizeBytes / 1024) + ' KB']];
+    } else {
+      meta = [['Status upload', PH_LABEL[p.state] + ' — belum tersimpan di Drive'], ['File asal', p.name], ['Item', it.code + ' · ' + it.name], ['Status item', STATUS_LABEL[p.status]], ['Ukuran', Math.round(p.orig / 1024) + ' KB → ' + Math.round(p.blob.size / 1024) + ' KB setelah dikompres']];
+    }
+    $('vImg').src = src; $('vImg').alt = 'Foto ' + it.code + ' ' + it.name;
+    $('vTitle').textContent = p.state === 'done' ? p.photo.fileName : it.code + ' · belum diunggah';
+    const box = $('vMeta'); box.innerHTML = '';
+    meta.forEach(([k, v]) => { const r = el('div', { class: 'vw-row' }); r.appendChild(el('span', {}, k)); r.appendChild(el('span', {}, v)); box.appendChild(r); });
+    $('viewer').classList.remove('hidden');
+  }
+  $('vClose').onclick = () => { $('viewer').classList.add('hidden'); $('vImg').removeAttribute('src'); };
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('viewer').classList.contains('hidden')) $('vClose').onclick(); });
+})();
+</script>
+</body>
+</html>
