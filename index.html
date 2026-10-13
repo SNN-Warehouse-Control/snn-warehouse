@@ -72,15 +72,171 @@ select{font:inherit;font-size:15px;border:1.5px solid #CDD3CD;border-radius:12px
 .foot-in span{flex:1;font-size:13px;font-weight:600}
 @media(min-width:760px){.grid2{grid-template-columns:1fr 1fr}.wrap{padding-left:24px;padding-right:24px}}
 @media(min-width:900px){.viewer{grid-template-columns:minmax(0,1fr) 380px;grid-template-rows:auto minmax(0,1fr)}.vw-top{grid-column:1/-1}.vw-meta{max-height:none}}
+
+/* ===================== UI v2 — tambahan (CSS lama di atas tidak diubah) ===================== */
+:root{--brand:#0E5A47;--brand-ink:#08402F;--brand-soft:#E3EFEA;--brand-ring:#CFE3DA;--line:#DCE0DA;--line-2:#ECEEEA;--surface-2:#F7F8F5;--ink:#18211C;--ink-2:#3E4843;--muted:#4A5550;
+  --ok:#1B7A43;--ok-bg:#E4F3EA;--ok-ink:#14653A;--warn:#E0A100;--warn-bg:#FFF1D6;--warn-ink:#714100;--bad:#B3261E;--bad-bg:#FBE9E7;--bad-ink:#9C1F17;--neutral:#7D8781;--neutral-bg:#ECEEEA;--neutral-ink:#4E5853;--info-bg:#E6EEFB;--info-ink:#184C9C;--audit-bg:#EEE8F7;--audit-ink:#5B3A8C;--shadow:0 1px 2px rgba(16,24,20,.06),0 4px 16px rgba(16,24,20,.05)}
+:focus-visible{outline:3px solid var(--brand-ring);outline-offset:2px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg.i{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+svg.i.sm{width:16px;height:16px}
+.shell{min-height:100vh}
+.maincol{min-width:0}
+.chip-ro{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+#menuBtn{display:inline-flex;align-items:center;gap:6px}
+body.app-on #logoutBtn{display:none}
+body.app-on .wrap{max-width:1240px}
+body.app-on .wrap{padding-bottom:110px}
+#page-checklist{display:flex;flex-direction:column;gap:14px;max-width:980px;width:100%}
+.page{display:flex;flex-direction:column;gap:16px;min-width:0}
+.page.hidden{display:none!important}
+.page-h{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.page-h h1{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.page-h p{color:var(--muted);font-size:13px;margin-top:2px}
+.page-h .actions{display:flex;gap:8px;flex-wrap:wrap}
+/* Sidebar (laptop) & menu bawah (HP) */
+.side{background:#fff;border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:10px}
+.side-brand{display:flex;align-items:center;gap:12px;padding:4px 8px 10px}
+.side-brand .logo{background:var(--brand);color:#fff}
+.side-brand b{display:block;font-size:15px}.side-brand small{display:block;color:var(--muted);font-size:12px}
+.nav-group{display:flex;flex-direction:column;gap:2px}
+.nav-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 12px 4px}
+.nav-item{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border-radius:12px;border:0;background:none;text-align:left;font:inherit;font-weight:600;color:var(--ink-2);cursor:pointer;width:100%}
+.nav-item:hover{background:var(--surface-2)}
+.nav-item.on{background:var(--brand-soft);color:var(--brand-ink);font-weight:700}
+.profile{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
+.profile .pg{flex:1;min-width:0}
+.profile b,.profile small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.profile b{font-size:14px}.profile small{color:var(--muted);font-size:12px}
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.bottom-in{max-width:640px;margin:0 auto;display:grid;grid-auto-flow:column;grid-auto-columns:1fr}
+.bottom button{min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:inherit;font-size:11px;font-weight:700;color:var(--muted);background:none;border:0;cursor:pointer;position:relative}
+.bottom button.on{color:var(--brand)}
+.bottom button.on::before{content:'';position:absolute;top:0;left:28%;right:28%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+body.app-on .foot{bottom:62px}
+.drawer-bg{position:fixed;inset:0;z-index:60;background:rgba(16,22,19,.45);display:flex;justify-content:flex-end}
+.drawer{background:#fff;width:min(88vw,340px);height:100%;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+@media(min-width:1024px){
+  body.app-on .shell{display:grid;grid-template-columns:256px minmax(0,1fr)}
+  body.app-on .side{display:flex!important;position:sticky;top:0;height:100vh;overflow:auto}
+  body.app-on .bottom,body.app-on #menuBtn,body.app-on .top .logo{display:none!important}
+  body.app-on .top-in{max-width:1240px;padding:12px 28px}
+  body.app-on .wrap{padding:24px 28px 48px}
+  body.app-on .foot{bottom:0;left:256px}
+}
+@media(max-width:1023px){body.app-on .side{display:none!important}}
+/* Komponen */
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.card-h h2{font-size:15px;font-weight:800}
+.card-h p{color:var(--muted);font-size:12px}
+.sec{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.gridx{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:960px){.gridx.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.gridx.g3{grid-template-columns:3fr 2fr}}
+.btn.danger{color:var(--bad-ink);border-color:#E7B4AF}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.xs{min-height:36px;font-size:13px;padding:0 10px;border-radius:10px}
+.icon-btn{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--ink-2);padding:0}
+.icon-btn:disabled{opacity:.4;cursor:default}
+.p-ok{background:var(--ok-bg);color:var(--ok-ink)}.p-warn{background:var(--warn-bg);color:var(--warn-ink)}.p-bad{background:var(--bad-bg);color:var(--bad-ink)}.p-muted{background:var(--neutral-bg);color:var(--neutral-ink)}.p-info{background:var(--info-bg);color:var(--info-ink)}.p-audit{background:var(--audit-bg);color:var(--audit-ink)}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.8}
+.notex{display:flex;gap:10px;align-items:flex-start}
+.n-ok{background:var(--ok-bg);color:var(--ok-ink)}
+.input{font:inherit;font-size:15px;font-weight:500;border:1.5px solid #CDD3CD;border-radius:12px;padding:9px 12px;background:#fff;min-height:44px;width:100%;color:inherit}
+textarea.input{min-height:80px;resize:vertical}
+.input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-ring)}
+.input[readonly]{background:var(--surface-2)}
+.field small{font-weight:500;color:var(--muted)}
+.search{position:relative;flex:1;min-width:220px}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search .input{padding-left:40px}
+.filters{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:900px){.filters{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.segx{display:flex;background:#E3E7E1;border-radius:12px;padding:3px;gap:3px}
+.segx button{flex:1;min-height:38px;border:0;border-radius:9px;background:transparent;font:inherit;font-weight:700;font-size:13px;color:var(--muted);cursor:pointer;padding:0 10px;white-space:nowrap}
+.segx button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.check{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 12px;border:1.5px solid #CDD3CD;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;background:#fff}
+.check input{width:18px;height:18px;accent-color:var(--brand)}
+.check.on{border-color:var(--brand);background:var(--brand-soft)}
+.kpis{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:760px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1200px){.kpis{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi .k-label{font-size:12px;color:var(--muted);font-weight:600}
+.kpi .k-val{font-size:28px;font-weight:800;line-height:1.15;letter-spacing:-.01em}
+.kpi .k-val.na{font-size:15px;font-weight:700;color:var(--muted);padding:7px 0 3px}
+.kpi .k-sub{font-size:12px;color:var(--muted)}
+.kpi .k-bar{height:6px;border-radius:999px;background:var(--line-2);overflow:hidden;margin-top:4px}
+.kpi .k-bar i{display:block;height:100%;background:var(--brand);border-radius:999px}
+.hbars{display:flex;flex-direction:column;gap:12px}
+.hbar-top{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:6px}
+.hbar{height:14px;border-radius:4px;background:var(--line-2);overflow:hidden}
+.hbar i{display:block;height:100%;background:var(--brand);border-radius:0 4px 4px 0}
+.tip{position:fixed;z-index:90;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;padding:8px 10px;border-radius:8px;box-shadow:var(--shadow);max-width:260px}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.table-wrap table{border-collapse:collapse;width:100%;font-size:14px}
+.table-wrap th{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-align:left;background:var(--surface-2);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.table-wrap td{padding:10px 12px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+.table-wrap tr:last-child td{border-bottom:0}
+.table-wrap tbody tr:hover{background:#FAFBF9}
+.table-wrap .tnum{text-align:right;font-variant-numeric:tabular-nums}
+.cell-main b{display:block;font-weight:700}
+.cell-main small{display:block;color:var(--muted);font-size:12px}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
+.list{display:flex;flex-direction:column}
+.lrow{display:flex;align-items:center;gap:12px;padding:10px 4px;border-top:1px solid var(--line-2);min-height:52px;font:inherit;color:inherit}
+.lrow:first-child{border-top:0}
+.lrow .grow{flex:1;min-width:0}
+.lrow .grow b{display:block;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lrow .grow small{display:block;font-size:12px;color:var(--muted)}
+button.lrow{width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;cursor:pointer}
+button.lrow:hover{background:#FAFBF9}
+.ricon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex:none}
+.qa{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:760px){.qa{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.qa button{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:left;cursor:pointer;min-height:92px;font:inherit;color:inherit}
+.qa button:hover{border-color:#9FB4AC;box-shadow:var(--shadow)}
+.qa .qi{width:36px;height:36px;border-radius:10px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center}
+.qa b{font-size:14px}.qa small{font-size:12px;color:var(--muted)}
+.skel{background:linear-gradient(90deg,#ECEEEA 0%,#F5F6F3 50%,#ECEEEA 100%);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:10px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:28px 16px;color:var(--muted)}
+.empty .ei{width:48px;height:48px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center;color:var(--neutral)}
+.empty b{color:var(--ink);font-size:15px}
+.spinner{width:18px;height:18px;border:2.5px solid rgba(0,0,0,.15);border-top-color:currentColor;border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.gtile{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;padding:0;cursor:pointer;text-align:left;display:flex;flex-direction:column;font:inherit;color:inherit}
+.gtile:hover{border-color:#9FB4AC}
+.gimg{width:100%;aspect-ratio:4/3;background:#E2E6E0;display:grid;place-items:center;color:var(--muted)}
+.gimg img{width:100%;height:100%;object-fit:cover;display:block}
+.gcap{padding:6px 8px 8px;display:flex;flex-direction:column;gap:2px;font-size:12px}
+.sheet-bg{position:fixed;inset:0;z-index:60;background:rgba(16,22,19,.5);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px 24px;display:flex;flex-direction:column;gap:14px}
+.sheet-h{display:flex;align-items:flex-start;gap:12px}
+.sheet-h h3{flex:1;font-size:18px;font-weight:800;margin:0}
+.sheet-f{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;position:sticky;bottom:-24px;background:#fff;padding:10px 0 4px;border-top:1px solid var(--line-2)}
+@media(min-width:760px){.sheet-bg{align-items:center}.sheet{border-radius:22px}}
+.toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;z-index:95;display:flex;flex-direction:column;gap:8px;width:max-content;max-width:min(92vw,460px)}
+@media(min-width:1024px){.toasts{bottom:24px;left:auto;right:24px;transform:none}}
+.toast{display:flex;gap:10px;align-items:flex-start;background:var(--ink);color:#fff;padding:12px 14px;border-radius:12px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.toast.err{background:#5A1410}
 </style>
 </head>
 <body>
+<div class="shell">
+<aside class="side hidden" id="side" aria-label="Navigasi utama"></aside>
+<div class="maincol">
 <header class="top"><div class="top-in">
   <div class="logo">SNN</div>
-  <div class="brand"><b>Warehouse Control</b><span id="hdrSub">Upload dokumentasi foto</span></div>
+  <div class="brand"><b id="hdrTitle">Warehouse Control</b><span id="hdrSub">Upload dokumentasi foto</span></div>
+  <span class="chip-ro hidden" id="roChip">Hanya-baca</span>
   <button id="logoutBtn" type="button" class="hidden">Keluar</button>
+  <button id="menuBtn" type="button" class="hidden" aria-label="Buka menu">Menu</button>
 </div>
-<div class="live">Tahap 1 · foto benar-benar disimpan ke Google Drive SNN · jawaban OK/Tidak OK/N/A belum disimpan ke server</div>
 </header>
 
 <main class="wrap">
@@ -94,6 +250,10 @@ select{font:inherit;font-size:15px;border:1.5px solid #CDD3CD;border-radius:12px
     <div id="gbtn" style="min-height:44px"></div>
   </section>
 
+  <section id="page-dashboard" class="page hidden"></section>
+
+  <div id="page-checklist" class="page hidden">
+  <div class="page-h"><div><h1>Checklist</h1><p>Opening dan Closing harian dengan dokumentasi foto</p></div></div>
   <section id="pickCard" class="card hidden">
     <div><b id="who"></b><div class="muted" id="whoMeta"></div></div>
     <div class="grid2">
@@ -111,7 +271,21 @@ select{font:inherit;font-size:15px;border:1.5px solid #CDD3CD;border-radius:12px
     <div class="note n-info">Pilih status item, ambil atau pilih foto, lalu tekan <b>Upload</b>. Foto ditandai <b>Berhasil</b> hanya setelah server mengonfirmasi file tersimpan di Google Drive.</div>
   </section>
   <div id="items" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+
+  <section id="page-foto" class="page hidden"></section>
+  <section id="page-riwayat" class="page hidden"></section>
+  <section id="page-user" class="page hidden"></section>
+  <section id="page-gudang" class="page hidden"></section>
+  <section id="page-area" class="page hidden"></section>
+  <section id="page-template" class="page hidden"></section>
+  <section id="page-audit" class="page hidden"></section>
 </main>
+</div>
+</div>
+<nav class="bottom hidden" id="bottomNav" aria-label="Navigasi bawah"></nav>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+<div class="tip hidden" id="tip" role="tooltip"></div>
 
 <div class="foot hidden" id="foot"><div class="foot-in"><span id="footTxt"></span><button class="btn pri" id="uploadAll" type="button">Upload semua</button></div></div>
 
@@ -165,6 +339,7 @@ select{font:inherit;font-size:15px;border:1.5px solid #CDD3CD;border-radius:12px
     try { sessionStorage.removeItem('snn_s'); } catch (e) {}
     ['pickCard', 'runCard', 'logoutBtn', 'foot'].forEach((id) => $(id).classList.add('hidden'));
     $('items').innerHTML = ''; $('loginCard').classList.remove('hidden'); $('hdrSub').textContent = 'Upload dokumentasi foto';
+    appStop(); // UI v2: sembunyikan navigasi & halaman
   }
   $('logoutBtn').onclick = () => { if (pendingCount() && !confirm('Ada foto yang belum diunggah. Tetap keluar?')) return; logout(); };
   (async () => { try { const s = sessionStorage.getItem('snn_s'); if (s && configured) { S.session = s; S.user = (await api('me')).user; renderUser(); } } catch (e) {} })();
@@ -172,9 +347,10 @@ select{font:inherit;font-size:15px;border:1.5px solid #CDD3CD;border-radius:12px
   function renderUser() {
     $('loginCard').classList.add('hidden'); $('pickCard').classList.remove('hidden'); $('logoutBtn').classList.remove('hidden');
     $('who').textContent = S.user.name + ' · ' + S.user.email;
-    $('whoMeta').textContent = (S.user.role === 'national_admin' ? 'National admin' : 'Petugas gudang') + ' · akses: ' + S.user.warehouses.map((w) => w.id).join(', ');
+    $('whoMeta').textContent = (ROLE_LABEL[S.user.role] || S.user.role) + ' · akses: ' + S.user.warehouses.map((w) => w.id).join(', ');
     $('wh').innerHTML = '';
     S.user.warehouses.forEach((w) => $('wh').appendChild(el('option', { value: w.id }, w.id + ' · ' + w.name)));
+    appStart(); // UI v2: tampilkan navigasi & buka Dashboard sebagai halaman pertama
   }
   $('tO').onclick = () => { S.sess = 'OPENING'; $('tO').className = 'on'; $('tC').className = ''; };
   $('tC').onclick = () => { S.sess = 'CLOSING'; $('tC').className = 'on'; $('tO').className = ''; };
@@ -333,6 +509,785 @@ select{font:inherit;font-size:15px;border:1.5px solid #CDD3CD;border-radius:12px
   }
   $('vClose').onclick = () => { $('viewer').classList.add('hidden'); $('vImg').removeAttribute('src'); };
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('viewer').classList.contains('hidden')) $('vClose').onclick(); });
+
+  /* =====================================================================
+   * UI v2 — navigasi, Dashboard, Dokumentasi Foto, Riwayat, Manajemen, Audit
+   * Hanya memakai action backend yang sudah ada: me, dashboard.get, photo.list,
+   * photo.get, manage.get, user.save, warehouse.save, warehouse.deactivate,
+   * area.save, checklist.save, audit.list. Kode checklist & upload di atas tidak diubah.
+   * Menu disembunyikan sesuai role hanya untuk kenyamanan; otorisasi tetap di server.
+   * ===================================================================== */
+  const TZ = 'Asia/Makassar';
+  const ROLE_LABEL = { national_admin: 'National Admin', manager: 'Manager', spv: 'SPV', warehouse_user: 'Petugas Gudang', auditor: 'Internal Audit' };
+  const SESSION_LABEL = { OPENING: 'Opening', CLOSING: 'Closing' };
+  const A = { route: '', started: false, manage: null, params: null };
+
+  // ---------- helper DOM (teks dari server selalu lewat textContent) ----------
+  function h(tag, attrs) {
+    const e = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach((k) => {
+      const v = attrs[k];
+      if (v == null || v === false) return;
+      if (k === 'class') e.className = v;
+      else if (k === 'text') e.textContent = v;
+      else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2).toLowerCase(), v);
+      else e.setAttribute(k, v === true ? '' : v);
+    });
+    for (let i = 2; i < arguments.length; i++) addKid(e, arguments[i]);
+    return e;
+  }
+  function addKid(p, c) {
+    if (c == null || c === false) return;
+    if (Array.isArray(c)) { c.forEach((x) => addKid(p, x)); return; }
+    p.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+  }
+  function clear(e) { while (e.firstChild) e.removeChild(e.firstChild); return e; }
+  const ICONS = {
+    dashboard: '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
+    checklist: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9z"/><path d="m9 13 2 2 4-4"/>',
+    image: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>',
+    history: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/>',
+    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14a6 6 0 0 1 3.5 6"/>',
+    warehouse: '<path d="M3 21V9l9-6 9 6v12"/><path d="M7 21v-8h10v8"/><path d="M7 17h10"/>',
+    area: '<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+    template: '<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/>',
+    shield: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+    menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+    logout: '<path d="M15 4h4v16h-4"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h12"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>', edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+    refresh: '<path d="M20 11a8 8 0 0 0-14.9-3.5L3 10"/><path d="M3 4v6h6"/><path d="M4 13a8 8 0 0 0 14.9 3.5L21 14"/><path d="M21 20v-6h-6"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18"/>', chevron: '<path d="m9 6 6 6-6 6"/>', up: '<path d="m6 15 6-6 6 6"/>',
+    alert: '<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/>', info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+    check: '<path d="m5 12 4 4 10-10"/>', eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    table: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/>', chart: '<path d="M4 20V11M10 20V5M16 20v-7M21 20H3"/>',
+    lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+    trash: '<path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13M9 7V4h6v3"/>'
+  };
+  function icon(name, cls) { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('class', 'i' + (cls ? ' ' + cls : '')); s.setAttribute('aria-hidden', 'true'); s.innerHTML = ICONS[name] || ''; return s; }
+  function toast(msg, kind) {
+    const t = h('div', { class: 'toast ' + (kind || 'ok') }, icon(kind === 'err' ? 'alert' : 'check', 'sm'), h('span', { text: msg }));
+    $('toasts').appendChild(t); setTimeout(() => t.remove(), kind === 'err' ? 6500 : 3800);
+  }
+  function ymdNow() { return new Date().toLocaleDateString('sv-SE', { timeZone: TZ }); }
+  function addDays(ymd, n) { const d = new Date(ymd + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function fmtDate(ymd, opt) { if (!ymd) return '—'; return new Date(ymd + 'T00:00:00').toLocaleDateString('id-ID', opt || { weekday: 'short', day: 'numeric', month: 'short' }); }
+  function fmtLong(ymd) { return fmtDate(ymd, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
+  function fmtDT(iso) { if (!iso) return '—'; const d = new Date(iso); if (isNaN(d)) return String(iso); return d.toLocaleString('id-ID', { timeZone: TZ, day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+  function pct(a, b) { return b ? Math.round(a / b * 100) : 0; }
+  function initials(n) { return String(n || '?').split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join(''); }
+  function pill(text, cls, dot) { return h('span', { class: 'pill ' + (cls || 'p-muted') }, dot ? h('span', { class: 'dot' }) : null, text); }
+  function emptyState(ic, title, text, action) { return h('div', { class: 'empty' }, h('div', { class: 'ei' }, icon(ic)), h('b', { text: title }), text ? h('p', { class: 'muted', text: text }) : null, action || null); }
+  function errorState(err, retry) { return h('div', { class: 'empty' }, h('div', { class: 'ei', style: 'color:var(--bad)' }, icon('alert')), h('b', { text: 'Data belum dapat dimuat' }), h('p', { class: 'muted', text: (err && err.message) || 'Terjadi kesalahan.' }), retry ? h('button', { class: 'btn xs', type: 'button', onclick: retry }, icon('refresh', 'sm'), 'Coba lagi') : null); }
+  function skeleton(rows) { const w = h('div', { class: 'card' }); for (let i = 0; i < (rows || 3); i++) w.appendChild(h('div', { class: 'skel', style: 'height:' + (i ? 44 : 20) + 'px;width:' + (i ? '100%' : '40%') })); return w; }
+  function note(kind, ic, content) { return h('div', { class: 'note notex n-' + kind }, icon(ic, 'sm'), h('div', {}, content)); }
+  function pageHead(title, sub, actions) { return h('div', { class: 'page-h' }, h('div', {}, h('h1', { text: title }), sub ? h('p', { text: sub }) : null), actions && actions.length ? h('div', { class: 'actions' }, actions) : null); }
+  function field(label, control, hint) { return h('label', { class: 'field' }, label, control, hint ? h('small', { text: hint }) : null); }
+  function selectEl(opts, value, onchange, attrs) {
+    const s = h('select', Object.assign({}, attrs || {}));
+    opts.forEach((o) => { const op = h('option', { value: o[0], text: o[1] }); if (String(o[0]) === String(value)) op.selected = true; s.appendChild(op); });
+    if (onchange) s.addEventListener('change', () => onchange(s.value));
+    return s;
+  }
+  function segmented(opts, value, onchange, label) {
+    const g = h('div', { class: 'segx', role: 'group', 'aria-label': label || '' });
+    opts.forEach((o) => g.appendChild(h('button', { type: 'button', class: o[0] === value ? 'on' : '', 'aria-pressed': o[0] === value ? 'true' : 'false', onclick: () => onchange(o[0]) }, o[1])));
+    return g;
+  }
+  function searchBox(value, oninput, ph) {
+    const inp = h('input', { class: 'input', type: 'search', placeholder: ph, value: value || '', 'aria-label': ph });
+    inp.addEventListener('input', () => oninput(inp.value));
+    return h('div', { class: 'search' }, icon('search', 'sm'), inp);
+  }
+  function table(cols, rows, caption) {
+    return h('div', { class: 'table-wrap' }, h('table', {}, caption ? h('caption', { class: 'sr', text: caption }) : null,
+      h('thead', {}, h('tr', {}, cols.map((c) => h('th', { class: c.num ? 'tnum' : '', scope: 'col' }, c.label)))),
+      h('tbody', {}, rows.map((r) => h('tr', {}, cols.map((c) => { const v = c.render(r); return h('td', { class: c.num ? 'tnum' : '' }, v == null || v === '' ? '—' : v); }))))));
+  }
+  function paged(items, size, st, render) {
+    const pages = Math.max(1, Math.ceil(items.length / size));
+    if (st.page >= pages) st.page = pages - 1;
+    const slice = items.slice(st.page * size, (st.page + 1) * size);
+    const w = h('div', { style: 'display:flex;flex-direction:column;gap:10px' }, render(slice));
+    if (pages > 1) w.appendChild(h('div', { class: 'pager' }, h('span', { text: (st.page * size + 1) + '–' + (st.page * size + slice.length) + ' dari ' + items.length }),
+      h('div', { style: 'display:flex;gap:6px' },
+        h('button', { class: 'btn xs', type: 'button', disabled: st.page === 0, onclick: () => { st.page--; st.draw(); } }, 'Sebelumnya'),
+        h('button', { class: 'btn xs', type: 'button', disabled: st.page >= pages - 1, onclick: () => { st.page++; st.draw(); } }, 'Berikutnya'))));
+    return w;
+  }
+  function tip(node, text) {
+    node.setAttribute('aria-label', text); node.tabIndex = 0;
+    const show = (ev) => { const t = $('tip'); t.textContent = text; t.classList.remove('hidden'); const r = node.getBoundingClientRect(); const x = ev && ev.clientX ? ev.clientX : r.left + r.width / 2; const y = ev && ev.clientY ? ev.clientY : r.top; t.style.left = Math.min(window.innerWidth - 270, Math.max(8, x + 12)) + 'px'; t.style.top = Math.max(8, y - 50) + 'px'; };
+    const hide = () => $('tip').classList.add('hidden');
+    node.addEventListener('mousemove', show); node.addEventListener('mouseleave', hide); node.addEventListener('focus', show); node.addEventListener('blur', hide);
+  }
+  function openSheet(title, body, footer, onclose) {
+    const close = () => { bg.remove(); document.removeEventListener('keydown', onKey); if (onclose) onclose(); };
+    const onKey = (e) => { if (e.key === 'Escape') close(); };
+    const sheet = h('div', { class: 'sheet', role: 'dialog', 'aria-modal': 'true', 'aria-label': title },
+      h('div', { class: 'sheet-h' }, h('h3', { text: title }), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Tutup', onclick: close }, icon('x'))),
+      body, footer ? h('div', { class: 'sheet-f' }, footer) : null);
+    const bg = h('div', { class: 'sheet-bg', onclick: (e) => { if (e.target === bg) close(); } }, sheet);
+    document.body.appendChild(bg); document.addEventListener('keydown', onKey);
+    const first = sheet.querySelector('input:not([readonly]):not([type=checkbox]),select,textarea'); if (first) setTimeout(() => first.focus(), 30);
+    return { close: close };
+  }
+  function confirmDialog(title, message, okLabel) {
+    return new Promise((resolve) => {
+      let done = false;
+      const m = openSheet(title, h('p', { text: message }), [
+        h('button', { class: 'btn', type: 'button', onclick: () => { done = true; m.close(); resolve(false); } }, 'Batal'),
+        h('button', { class: 'btn danger', type: 'button', onclick: () => { done = true; m.close(); resolve(true); } }, okLabel)
+      ], () => { if (!done) resolve(false); });
+    });
+  }
+  async function withBusy(btn, fn) {
+    const old = Array.from(btn.childNodes); btn.disabled = true; clear(btn).appendChild(h('span', { class: 'spinner' })); btn.appendChild(document.createTextNode(' Menyimpan…'));
+    try { return await fn(); } finally { btn.disabled = false; clear(btn); old.forEach((n) => btn.appendChild(n)); }
+  }
+  function checkBox(label, arr, val, disabled) {
+    const inp = h('input', { type: 'checkbox', disabled: disabled ? true : null }); inp.checked = arr.indexOf(val) >= 0;
+    const lab = h('label', { class: 'check' + (inp.checked ? ' on' : '') }, inp, label);
+    inp.addEventListener('change', () => { const i = arr.indexOf(val); if (inp.checked && i < 0) arr.push(val); if (!inp.checked && i >= 0) arr.splice(i, 1); lab.className = 'check' + (inp.checked ? ' on' : ''); });
+    return lab;
+  }
+
+  // ---------- Foto: penampil memakai elemen viewer yang sudah ada ----------
+  async function showServerPhoto(p) {
+    const box = $('vMeta'); clear(box);
+    $('vTitle').textContent = p.fileName; $('vImg').removeAttribute('src'); $('vImg').alt = 'Foto ' + p.itemCode + ' ' + p.itemName;
+    $('viewer').classList.remove('hidden');
+    [['Status upload', 'Tersimpan di Google Drive'], ['Gudang', p.warehouseId], ['Tanggal', fmtLong(p.date)], ['Sesi', SESSION_LABEL[p.session] || p.session], ['ID checklist', p.runId], ['Item', p.itemCode + ' · ' + p.itemName], ['Status item', STATUS_LABEL[p.itemStatus] || p.itemStatus], ['Diunggah', fmtDT(p.uploadedAt) + ' oleh ' + p.uploadedBy], ['Ukuran', Math.round((p.sizeBytes || 0) / 1024) + ' KB']]
+      .forEach((r) => box.appendChild(h('div', { class: 'vw-row' }, h('span', { text: r[0] }), h('span', { text: r[1] }))));
+    try { const d = await api('photo.get', { photoId: p.photoId }); $('vImg').src = 'data:' + d.mime + ';base64,' + d.dataBase64; }
+    catch (e) { $('viewer').classList.add('hidden'); toast(e.message || 'Foto tidak dapat dibuka.', 'err'); }
+  }
+  const thumbCache = {}; const thumbQ = []; let thumbActive = 0;
+  function loadThumb(photoId, holder) { if (thumbCache[photoId]) { setThumb(holder, thumbCache[photoId]); return; } thumbQ.push([photoId, holder]); pumpThumbs(); }
+  function setThumb(holder, src) { clear(holder).appendChild(h('img', { src: src, alt: '' })); }
+  function pumpThumbs() {
+    while (thumbActive < 3 && thumbQ.length) {
+      const job = thumbQ.shift(); thumbActive++;
+      api('photo.get', { photoId: job[0], variant: 'thumb' })
+        .then((d) => { thumbCache[job[0]] = 'data:' + d.mime + ';base64,' + d.dataBase64; if (job[1].isConnected) setThumb(job[1], thumbCache[job[0]]); })
+        .catch(() => { if (job[1].isConnected) clear(job[1]).appendChild(icon('lock')); })
+        .finally(() => { thumbActive--; pumpThumbs(); });
+    }
+  }
+  function gallery(photos) {
+    return h('div', { class: 'gallery' }, photos.map((p) => {
+      const holder = h('div', { class: 'gimg' }, h('span', { class: 'spinner' }));
+      loadThumb(p.photoId, holder);
+      return h('button', { class: 'gtile', type: 'button', 'aria-label': 'Buka foto ' + p.itemCode + ' ' + p.itemName, onclick: () => showServerPhoto(p) }, holder,
+        h('div', { class: 'gcap' }, h('b', { text: p.itemCode + ' · ' + (STATUS_LABEL[p.itemStatus] || p.itemStatus) }), h('span', { class: 'muted', style: 'font-size:11px', text: (p.uploadedBy || '') + ' · ' + fmtDT(p.uploadedAt) })));
+    }));
+  }
+
+  // ---------- Role & menu ----------
+  function role() { return S.user ? S.user.role : ''; }
+  const can = {
+    operate: () => ['national_admin', 'manager', 'spv', 'warehouse_user'].indexOf(role()) >= 0,
+    manage: () => ['national_admin', 'manager', 'spv'].indexOf(role()) >= 0,
+    manager: () => ['national_admin', 'manager'].indexOf(role()) >= 0,
+    dash: () => ['national_admin', 'manager', 'spv', 'auditor'].indexOf(role()) >= 0,
+    audit: () => ['national_admin', 'manager', 'auditor'].indexOf(role()) >= 0,
+    readonly: () => role() === 'auditor'
+  };
+  function menu() {
+    return [
+      { group: 'Operasional', items: [
+        { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', show: true, primary: true },
+        { id: 'checklist', label: 'Checklist', icon: 'checklist', show: can.operate(), primary: true },
+        { id: 'foto', label: 'Dokumentasi Foto', short: 'Foto', icon: 'image', show: true, primary: true },
+        { id: 'riwayat', label: 'Riwayat Checklist', short: 'Riwayat', icon: 'history', show: can.dash(), primary: true }] },
+      { group: 'Pengelolaan', items: [
+        { id: 'user', label: 'Manajemen User', icon: 'users', show: can.manage() },
+        { id: 'gudang', label: 'Manajemen Gudang', icon: 'warehouse', show: can.manage() },
+        { id: 'area', label: 'Manajemen Area', icon: 'area', show: can.manager() },
+        { id: 'template', label: 'Template Checklist', icon: 'template', show: can.manage() }] },
+      { group: 'Pengawasan', items: [
+        { id: 'audit', label: 'Audit Log', icon: 'shield', show: can.audit() }] }
+    ].map((g) => ({ group: g.group, items: g.items.filter((i) => i.show) })).filter((g) => g.items.length);
+  }
+  function menuItem(id) { for (const g of menu()) for (const i of g.items) if (i.id === id) return i; return null; }
+  function scopeText() {
+    if (can.manager() || can.readonly()) return 'semua gudang';
+    if (role() === 'spv') return 'area ' + ((S.user.areaIds || []).join(', ') || '—');
+    return 'gudang ' + (S.user.warehouses.map((w) => w.id).join(', ') || '—');
+  }
+  function navList(after) {
+    return menu().map((g) => h('nav', { class: 'nav-group', 'aria-label': g.group }, h('div', { class: 'nav-label', text: g.group }),
+      g.items.map((i) => h('button', { type: 'button', class: 'nav-item' + (A.route === i.id ? ' on' : ''), 'aria-current': A.route === i.id ? 'page' : null, onclick: () => { if (after) after(); go(i.id); } }, icon(i.icon), i.label))));
+  }
+  function profileBox() {
+    return h('div', { class: 'profile' }, h('div', { class: 'avatar', text: initials(S.user.name) }),
+      h('div', { class: 'pg' }, h('b', { text: S.user.name }), h('small', { text: S.user.email }), h('small', { text: (ROLE_LABEL[role()] || role()) + ' · ' + scopeText() })));
+  }
+  const doLogout = () => $('logoutBtn').click(); // memakai handler Keluar yang sudah ada (termasuk konfirmasi foto belum diunggah)
+  function renderNav() {
+    const side = clear($('side'));
+    side.appendChild(h('div', { class: 'side-brand' }, h('div', { class: 'logo' }, 'SNN'), h('div', {}, h('b', { text: 'Warehouse Control' }), h('small', { text: 'PT Selera Nikmat Nusantara' }))));
+    if (can.readonly()) side.appendChild(note('info', 'lock', 'Mode Internal Audit: hanya-baca.'));
+    addKid(side, navList());
+    side.appendChild(h('div', { style: 'flex:1' }));
+    side.appendChild(profileBox());
+    side.appendChild(h('button', { class: 'btn', type: 'button', onclick: doLogout }, icon('logout'), 'Keluar'));
+    const prim = menu()[0].items.filter((i) => i.primary);
+    const bn = clear($('bottomNav'));
+    bn.appendChild(h('div', { class: 'bottom-in' },
+      prim.map((i) => h('button', { type: 'button', class: A.route === i.id ? 'on' : '', 'aria-current': A.route === i.id ? 'page' : null, onclick: () => go(i.id) }, icon(i.icon), i.short || i.label)),
+      h('button', { type: 'button', class: prim.some((i) => i.id === A.route) ? '' : 'on', onclick: openDrawer }, icon('menu'), 'Menu')));
+  }
+  function openDrawer() {
+    let bg; const close = () => bg.remove();
+    bg = h('div', { class: 'drawer-bg', onclick: (e) => { if (e.target === bg) close(); } },
+      h('div', { class: 'drawer', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Menu' },
+        h('div', { style: 'display:flex;justify-content:space-between;align-items:center' }, h('b', { style: 'font-size:16px', text: 'Menu' }), h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Tutup menu', onclick: close }, icon('x'))),
+        profileBox(), navList(close), h('button', { class: 'btn', type: 'button', onclick: () => { close(); doLogout(); } }, icon('logout'), 'Keluar')));
+    document.body.appendChild(bg);
+  }
+  $('menuBtn').onclick = openDrawer;
+
+  function appStart() {
+    A.started = true; A.manage = null;
+    document.body.classList.add('app-on');
+    ['side', 'bottomNav', 'menuBtn'].forEach((id) => $(id).classList.remove('hidden'));
+    $('srv').classList.add('hidden'); showErr('');
+    $('roChip').classList.toggle('hidden', !can.readonly());
+    if (location.hash === '#/dashboard') route(); else location.hash = '#/dashboard'; // Dashboard selalu halaman pertama setelah login
+  }
+  function appStop() {
+    A.started = false; A.route = ''; A.manage = null;
+    document.body.classList.remove('app-on');
+    ['side', 'bottomNav', 'menuBtn', 'roChip'].forEach((id) => $(id).classList.add('hidden'));
+    document.querySelectorAll('.page').forEach((p) => p.classList.add('hidden'));
+    $('hdrTitle').textContent = 'Warehouse Control';
+    if (configured) $('srv').classList.remove('hidden');
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  }
+  function go(id, params) {
+    if (A.route === 'checklist' && id !== 'checklist' && pendingCount() && !confirm('Ada foto yang belum diunggah. Foto tetap tersimpan sementara di halaman Checklist selama aplikasi tidak ditutup. Pindah halaman?')) return;
+    A.params = params || null;
+    if (location.hash === '#/' + id) route(); else location.hash = '#/' + id;
+  }
+  function route() {
+    if (!A.started || !S.user) return;
+    let id = location.hash.replace(/^#\/?/, '') || 'dashboard';
+    if (!menuItem(id)) id = 'dashboard';
+    A.route = id;
+    document.querySelectorAll('.page').forEach((p) => p.classList.add('hidden'));
+    const page = $('page-' + id); page.classList.remove('hidden');
+    $('hdrTitle').textContent = menuItem(id).label;
+    $('hdrSub').textContent = S.user.name + ' · ' + (ROLE_LABEL[role()] || role());
+    $('foot').classList.add('hidden');
+    renderNav();
+    if (id === 'checklist') { checklistEnter(); } else { clear(page); PAGES[id](page); }
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+  window.addEventListener('hashchange', route);
+
+  // ---------- Checklist: memakai elemen & kode yang sudah ada ----------
+  function checklistEnter() {
+    if (S.run) { updateFoot(); $('hdrSub').textContent = S.run.warehouseId + ' · ' + (S.run.session === 'OPENING' ? 'Opening' : 'Closing'); }
+    const p = A.params; A.params = null;
+    if (p && p.warehouseId && S.user.warehouses.some((w) => w.id === p.warehouseId)) {
+      $('wh').value = p.warehouseId;
+      (p.session === 'CLOSING' ? $('tC') : $('tO')).click();
+      $('openBtn').click();
+    }
+  }
+  function openChecklist(warehouseId, session) { go('checklist', { warehouseId: warehouseId, session: session }); }
+
+  // ---------- Detail checklist (photo.list) ----------
+  async function openRunDetail(r) {
+    const body = h('div', { style: 'display:flex;flex-direction:column;gap:12px' },
+      h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;align-items:center' }, runPill(r), pill(SESSION_LABEL[r.session] || r.session, 'p-muted'), h('span', { class: 'muted', text: fmtLong(r.date) })),
+      h('div', { class: 'code', text: r.runId }));
+    const loading = skeleton(2); body.appendChild(loading);
+    openSheet(r.warehouseId + ' · ' + (SESSION_LABEL[r.session] || r.session), body);
+    try {
+      const d = await api('photo.list', { runId: r.runId });
+      loading.remove();
+      const ph = (d.photos || []).filter((p) => !p.retiredInVersion);
+      if (!ph.length) { body.appendChild(emptyState('image', 'Belum ada foto', 'Checklist ini belum memiliki foto dokumentasi.')); return; }
+      const by = {}; ph.forEach((p) => { (by[p.itemCode] = by[p.itemCode] || []).push(p); });
+      Object.keys(by).sort().forEach((k) => { body.appendChild(h('div', { class: 'sec', text: k + ' · ' + by[k][0].itemName + ' (' + by[k].length + ')' })); body.appendChild(gallery(by[k])); });
+    } catch (e) { loading.remove(); body.appendChild(errorState(e)); }
+  }
+  // Backend belum punya fitur submit: status "draft" = checklist sudah dibuka, belum disubmit.
+  function runPill(r) { return r.status === 'submitted' ? pill('Disubmit', 'p-ok', true) : pill('Dibuka · belum submit', 'p-warn', true); }
+
+  /* ============================ DASHBOARD ============================ */
+  const DF = { areaId: '', warehouseId: '' };
+  function quickActions() {
+    const qa = [];
+    if (can.operate()) qa.push(['checklist', 'checklist', 'Buka Checklist', 'Isi Opening / Closing hari ini']);
+    qa.push(['image', 'foto', 'Dokumentasi Foto', 'Telusuri foto bukti per tanggal']);
+    if (can.dash()) qa.push(['history', 'riwayat', 'Riwayat Checklist', '50 checklist terakhir']);
+    if (can.manage()) qa.push(['users', 'user', 'Manajemen User', 'Akun, role, penugasan']);
+    else if (can.audit()) qa.push(['shield', 'audit', 'Audit Log', 'Jejak aktivitas sistem']);
+    return h('div', { class: 'card' }, h('div', { class: 'card-h' }, h('h2', { text: 'Akses cepat' })),
+      h('div', { class: 'qa' }, qa.map((q) => h('button', { type: 'button', onclick: () => go(q[1]) }, h('span', { class: 'qi' }, icon(q[0])), h('b', { text: q[2] }), h('small', { text: q[3] })))));
+  }
+  function kpi(label, value, sub, bar) {
+    return h('div', { class: 'kpi' }, h('span', { class: 'k-label', text: label }),
+      value === null ? h('span', { class: 'k-val na', text: 'Belum tersedia' }) : h('span', { class: 'k-val', text: String(value) }),
+      bar != null ? h('div', { class: 'k-bar', role: 'img', 'aria-label': bar + '%' }, h('i', { style: 'width:' + Math.min(100, bar) + '%' })) : null,
+      sub ? h('span', { class: 'k-sub', text: sub }) : null);
+  }
+  function greeting() { const hr = Number(new Date().toLocaleString('en-GB', { timeZone: TZ, hour: '2-digit', hourCycle: 'h23' })); return hr < 11 ? 'Selamat pagi' : hr < 15 ? 'Selamat siang' : hr < 18 ? 'Selamat sore' : 'Selamat malam'; }
+  function dashPage(page) {
+    page.appendChild(pageHead(greeting() + ', ' + String(S.user.name || '').split(' ')[0], fmtLong(ymdNow()) + ' · ' + (ROLE_LABEL[role()] || role()) + ' · ' + scopeText(),
+      [h('button', { class: 'btn sm', type: 'button', onclick: route }, icon('refresh', 'sm'), 'Muat ulang')]));
+    const body = h('div', { style: 'display:flex;flex-direction:column;gap:16px' }, skeleton(2), skeleton(4));
+    page.appendChild(body);
+    if (!can.dash()) { clear(body); dashWarehouseUser(body); return; } // backend menolak dashboard.get untuk petugas gudang
+    api('dashboard.get').then((d) => { clear(body); dashManager(body, d); })
+      .catch((e) => { clear(body); if (e.code === 'FORBIDDEN') dashWarehouseUser(body); else body.appendChild(h('div', { class: 'card' }, errorState(e, route))); });
+  }
+  function dashManager(body, d) {
+    const all = d.warehouses || [];
+    const areas = all.map((w) => w.areaId).filter((a, i, arr) => a && arr.indexOf(a) === i).sort();
+    if (DF.areaId && areas.indexOf(DF.areaId) < 0) DF.areaId = '';
+    const whOpts = all.filter((w) => !DF.areaId || w.areaId === DF.areaId);
+    if (DF.warehouseId && !whOpts.some((w) => w.id === DF.warehouseId)) DF.warehouseId = '';
+    const ws = whOpts.filter((w) => !DF.warehouseId || w.id === DF.warehouseId);
+    const filtered = ws.length !== all.length;
+    const redraw = () => { clear(body); dashManager(body, d); };
+
+    // Filter (diterapkan di browser pada data gudang dari backend)
+    const f = h('div', { class: 'filters' });
+    if (areas.length > 1) f.appendChild(field('Area', selectEl([['', 'Semua area']].concat(areas.map((a) => [a, a])), DF.areaId, (v) => { DF.areaId = v; DF.warehouseId = ''; redraw(); })));
+    if (all.length > 1) f.appendChild(field('Gudang', selectEl([['', 'Semua gudang (' + whOpts.length + ')']].concat(whOpts.map((w) => [w.id, w.id + ' · ' + w.name])), DF.warehouseId, (v) => { DF.warehouseId = v; redraw(); })));
+    f.appendChild(field('Periode', selectEl([['today', 'Hari ini (status) · sepanjang waktu (total)']], 'today', null, { disabled: true }), 'Filter periode belum didukung backend'));
+    body.appendChild(h('div', { class: 'card' }, f));
+
+    const n = ws.length, oDone = ws.filter((w) => w.openingToday > 0).length, cDone = ws.filter((w) => w.closingToday > 0).length;
+    const photos = ws.reduce((s, w) => s + (Number(w.photos) || 0), 0);
+    body.appendChild(note('info', 'info', [h('b', { text: 'Status "Selesai" belum tersedia. ' }), 'Backend belum memiliki fitur submit checklist, sehingga checklist yang sudah dibuka belum bisa dinyatakan selesai. Angka di bawah menunjukkan checklist yang sudah dibuka.']));
+    body.appendChild(h('div', { class: 'kpis' },
+      kpi('Gudang dalam cakupan', n, filtered ? 'dari ' + all.length + ' gudang' : 'gudang aktif'),
+      kpi('Opening dibuka hari ini', oDone + '/' + n, n - oDone ? (n - oDone) + ' gudang belum membuka' : 'semua sudah membuka', pct(oDone, n)),
+      kpi('Closing dibuka hari ini', cDone + '/' + n, n - cDone ? (n - cDone) + ' gudang belum membuka' : 'semua sudah membuka', pct(cDone, n)),
+      kpi('Checklist selesai', null, 'butuh fitur submit di backend'),
+      kpi('Foto dokumentasi', photos, 'sepanjang waktu' + (filtered ? ' · gudang terpilih' : '')),
+      kpi('Checklist dibuka', d.runCount, 'Opening ' + d.openingCount + ' · Closing ' + d.closingCount + ' · sepanjang waktu, seluruh cakupan')));
+
+    // Status hari ini
+    const today = h('div', { class: 'card' }, h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: 'Status checklist hari ini' }), h('p', { text: fmtLong(ymdNow()) }))));
+    const st = (v, sess) => v > 0 ? pill('Sudah dibuka', 'p-ok', true) : sess === 'OPENING' ? pill('Belum dibuka', 'p-bad', true) : pill('Belum dibuka', 'p-muted', true);
+    if (!ws.length) today.appendChild(emptyState('warehouse', 'Tidak ada gudang', 'Tidak ada gudang aktif dalam filter ini.'));
+    else today.appendChild(table([
+      { label: 'Gudang', render: (w) => h('div', { class: 'cell-main' }, h('b', { text: w.id }), h('small', { text: w.name + (w.areaId ? ' · ' + w.areaId : '') })) },
+      { label: 'Opening', render: (w) => st(w.openingToday, 'OPENING') },
+      { label: 'Closing', render: (w) => st(w.closingToday, 'CLOSING') },
+      { label: 'Foto', num: true, render: (w) => w.photos },
+      { label: '', render: (w) => can.operate() ? h('button', { class: 'btn xs', type: 'button', onclick: () => openChecklist(w.id, w.openingToday > 0 ? 'CLOSING' : 'OPENING') }, 'Buka', icon('chevron', 'sm')) : null }
+    ], ws, 'Status checklist hari ini per gudang'));
+
+    // Perlu perhatian
+    const pend = ws.filter((w) => !(w.openingToday > 0));
+    const attn = h('div', { class: 'card' }, h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: 'Perlu perhatian' }), h('p', { text: 'Opening hari ini yang belum dibuka' }))));
+    if (!pend.length) attn.appendChild(emptyState('check', 'Semua Opening sudah dibuka', ''));
+    else attn.appendChild(h('div', { class: 'list' }, pend.map((w) => h(can.operate() ? 'button' : 'div', { class: 'lrow', type: can.operate() ? 'button' : null, onclick: can.operate() ? () => openChecklist(w.id, 'OPENING') : null },
+      h('span', { class: 'ricon', style: 'background:var(--bad-bg);color:var(--bad)' }, icon('alert', 'sm')),
+      h('div', { class: 'grow' }, h('b', { text: w.id + ' · Opening' }), h('small', { text: w.name })), can.operate() ? icon('chevron', 'sm') : null))));
+    body.appendChild(h('div', { class: 'gridx g3' }, today, attn));
+
+    // Grafik: foto per gudang (data nyata dari backend), dengan tampilan tabel
+    const maxP = Math.max(1, ...ws.map((w) => Number(w.photos) || 0));
+    const bars = h('div', { class: 'hbars' }, ws.map((w) => {
+      const bar = h('div', { class: 'hbar' }, h('i', { style: 'width:' + ((Number(w.photos) || 0) / maxP * 100) + '%' }));
+      tip(bar, w.id + ' — ' + w.photos + ' foto dokumentasi');
+      return h('div', {}, h('div', { class: 'hbar-top' }, h('b', { text: w.id + ' · ' + w.name }), h('span', { class: 'muted', text: w.photos + ' foto' })), bar);
+    }));
+    const tbl = table([{ label: 'Gudang', render: (w) => w.id + ' · ' + w.name }, { label: 'Foto', num: true, render: (w) => w.photos }], ws, 'Foto dokumentasi per gudang');
+    let asTable = false; const holder = h('div', {}, ws.length ? bars : emptyState('image', 'Tidak ada data', ''));
+    const tg = h('button', { class: 'btn xs ghost', type: 'button', onclick: () => { asTable = !asTable; clear(holder).appendChild(asTable ? tbl : bars); clear(tg).appendChild(icon(asTable ? 'chart' : 'table', 'sm')); tg.appendChild(document.createTextNode(asTable ? 'Grafik' : 'Tabel')); } }, icon('table', 'sm'), 'Tabel');
+    const chart = h('div', { class: 'card' }, h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: 'Foto dokumentasi per gudang' }), h('p', { text: 'Jumlah foto tersimpan di Google Drive · sepanjang waktu' })), tg), holder,
+      h('p', { class: 'muted', text: 'Tren harian belum tersedia karena backend belum mendukung filter periode.' }));
+
+    // Aktivitas terbaru
+    const runs = (d.recentRuns || []).filter((r) => ws.some((w) => w.id === r.warehouseId));
+    const recent = h('div', { class: 'card' }, h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: 'Aktivitas checklist terbaru' }), h('p', { text: 'Dari 50 checklist terakhir' })),
+      h('button', { class: 'btn xs ghost', type: 'button', onclick: () => go('riwayat') }, 'Lihat semua', icon('chevron', 'sm'))));
+    if (!runs.length) recent.appendChild(emptyState('history', 'Belum ada aktivitas', 'Belum ada checklist yang dibuka.'));
+    else recent.appendChild(h('div', { class: 'list' }, runs.slice(0, 8).map((r) => h('button', { class: 'lrow', type: 'button', onclick: () => openRunDetail(r) },
+      h('div', { class: 'grow' }, h('b', { text: r.warehouseId + ' · ' + (SESSION_LABEL[r.session] || r.session) + ' · ' + fmtDate(r.date) }), h('small', { text: 'Diperbarui ' + fmtDT(r.updatedAt) })), runPill(r)))));
+    body.appendChild(h('div', { class: 'gridx g2' }, chart, recent));
+    body.appendChild(quickActions());
+  }
+  // Petugas gudang: dashboard.get ditolak backend → ringkasan dari data akun (me) + photo.list (tanpa membuat checklist baru)
+  function dashWarehouseUser(body) {
+    body.appendChild(note('info', 'info', 'Ringkasan untuk gudang Anda. Statistik lengkap dan riwayat untuk Petugas Gudang belum didukung backend.'));
+    const whs = S.user.warehouses || [];
+    const card = h('div', { class: 'card' }, h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: 'Checklist hari ini' }), h('p', { text: fmtLong(ymdNow()) }))));
+    if (!whs.length) card.appendChild(emptyState('warehouse', 'Belum ada gudang', 'Akun Anda belum ditugaskan ke gudang mana pun. Hubungi admin.'));
+    const list = h('div', { class: 'list' }); card.appendChild(list);
+    body.appendChild(card);
+    const ymd = ymdNow().replace(/-/g, '');
+    whs.forEach((w) => {
+      const cell = { OPENING: h('span', {}, h('span', { class: 'spinner' })), CLOSING: h('span', {}, h('span', { class: 'spinner' })) };
+      list.appendChild(h('div', { class: 'lrow', style: 'flex-wrap:wrap' }, h('div', { class: 'grow', style: 'min-width:180px' }, h('b', { text: w.id }), h('small', { text: w.name })),
+        ['OPENING', 'CLOSING'].map((s) => h('div', { style: 'display:flex;flex-direction:column;gap:4px;align-items:flex-start;min-width:150px' },
+          h('small', { class: 'muted', style: 'font-weight:700', text: SESSION_LABEL[s] }), cell[s],
+          can.operate() ? h('button', { class: 'btn xs', type: 'button', onclick: () => openChecklist(w.id, s) }, 'Buka ' + SESSION_LABEL[s]) : null))));
+      ['OPENING', 'CLOSING'].forEach((s) => {
+        api('photo.list', { runId: 'RUN-' + w.id + '-' + ymd + '-' + s })
+          .then((d) => { const n = (d.photos || []).filter((p) => !p.retiredInVersion).length; clear(cell[s]).appendChild(pill('Sudah dibuka · ' + n + ' foto', 'p-ok', true)); })
+          .catch((e) => { clear(cell[s]).appendChild(e.code === 'NOT_FOUND' ? pill('Belum dibuka', s === 'OPENING' ? 'p-bad' : 'p-muted', true) : pill('Tidak dapat dimuat', 'p-muted')); });
+      });
+    });
+    body.appendChild(quickActions());
+  }
+
+  /* ========================= DOKUMENTASI FOTO ========================= */
+  const PF = { warehouseId: '', date: '', session: '' };
+  function fotoPage(page) {
+    page.appendChild(pageHead('Dokumentasi Foto', 'Foto bukti checklist di Google Drive · dibuka melalui server dengan pemeriksaan akses gudang'));
+    if (!PF.date) PF.date = ymdNow();
+    const whs = S.user.warehouses || [];
+    if (whs.length === 1) PF.warehouseId = whs[0].id;
+    const dateI = h('input', { class: 'input', type: 'date', value: PF.date, max: ymdNow() });
+    dateI.addEventListener('change', () => { PF.date = dateI.value || ymdNow(); load(); });
+    page.appendChild(h('div', { class: 'card' }, h('div', { class: 'filters' },
+      field('Gudang', selectEl((whs.length > 1 ? [['', 'Semua gudang (' + whs.length + ')']] : []).concat(whs.map((w) => [w.id, w.id + ' · ' + w.name])), PF.warehouseId, (v) => { PF.warehouseId = v; load(); })),
+      field('Tanggal', dateI),
+      field('Sesi', selectEl([['', 'Opening & Closing'], ['OPENING', 'Opening'], ['CLOSING', 'Closing']], PF.session, (v) => { PF.session = v; load(); }))),
+      h('div', { style: 'display:flex;gap:8px;flex-wrap:wrap' },
+        h('button', { class: 'btn xs', type: 'button', onclick: () => { PF.date = addDays(PF.date, -1); dateI.value = PF.date; load(); } }, '‹ Hari sebelumnya'),
+        h('button', { class: 'btn xs', type: 'button', onclick: () => { if (PF.date < ymdNow()) { PF.date = addDays(PF.date, 1); dateI.value = PF.date; load(); } } }, 'Hari berikutnya ›'))));
+    const out = h('div', { style: 'display:flex;flex-direction:column;gap:14px' }); page.appendChild(out);
+    if (!whs.length) { out.appendChild(h('div', { class: 'card' }, emptyState('warehouse', 'Belum ada gudang', 'Akun Anda belum memiliki akses gudang.'))); return; }
+    let token = 0;
+    async function load() {
+      const my = ++token; clear(out).appendChild(skeleton(3));
+      const ymd = PF.date.replace(/-/g, '');
+      const jobs = [];
+      (PF.warehouseId ? [PF.warehouseId] : whs.map((w) => w.id)).forEach((w) => (PF.session ? [PF.session] : ['OPENING', 'CLOSING']).forEach((s) => jobs.push({ w: w, s: s, runId: 'RUN-' + w + '-' + ymd + '-' + s })));
+      let err = null;
+      await Promise.all(jobs.map((j) => api('photo.list', { runId: j.runId }).then((d) => { j.photos = (d.photos || []).filter((p) => !p.retiredInVersion); }).catch((e) => { j.photos = []; if (e.code !== 'NOT_FOUND') err = err || e; })));
+      if (my !== token || A.route !== 'foto') return;
+      clear(out);
+      const withP = jobs.filter((j) => j.photos.length), total = withP.reduce((n, j) => n + j.photos.length, 0);
+      if (err && !withP.length) { out.appendChild(h('div', { class: 'card' }, errorState(err, load))); return; }
+      out.appendChild(h('div', { class: 'muted', style: 'font-weight:600', text: fmtLong(PF.date) + ' · ' + withP.length + ' checklist · ' + total + ' foto' }));
+      if (err) out.appendChild(note('warn', 'alert', 'Sebagian data tidak dapat dimuat: ' + err.message));
+      if (!withP.length) { out.appendChild(h('div', { class: 'card' }, emptyState('image', 'Belum ada foto', 'Tidak ada foto dokumentasi untuk filter ini.'))); return; }
+      withP.forEach((j) => out.appendChild(h('div', { class: 'card' },
+        h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: j.w + ' · ' + SESSION_LABEL[j.s] }), h('div', { class: 'code', text: j.runId })), pill(j.photos.length + ' foto', 'p-muted')),
+        gallery(j.photos))));
+    }
+    load();
+  }
+
+  /* ========================= RIWAYAT CHECKLIST ========================= */
+  const RF = { warehouseId: '', session: '', q: '' };
+  function riwayatPage(page) {
+    page.appendChild(pageHead('Riwayat Checklist', 'Checklist yang sudah dibuka · klik Detail untuk melihat foto dokumentasi'));
+    const out = h('div', { style: 'display:flex;flex-direction:column;gap:14px' }, skeleton(5)); page.appendChild(out);
+    api('dashboard.get').then((d) => {
+      clear(out);
+      const runs = (d.recentRuns || []).slice().sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)));
+      const whs = d.warehouses || [];
+      out.appendChild(note('info', 'info', 'Menampilkan 50 checklist terakhir yang tersedia dari backend. Filter periode dan riwayat lengkap belum didukung backend.'));
+      const st = { page: 0 }; const list = h('div');
+      out.appendChild(h('div', { class: 'card' }, h('div', { class: 'toolbar' },
+        searchBox(RF.q, (v) => { RF.q = v; st.page = 0; draw(); }, 'Cari gudang atau ID checklist…'),
+        whs.length > 1 ? h('div', { style: 'min-width:180px' }, selectEl([['', 'Semua gudang']].concat(whs.map((w) => [w.id, w.id + ' · ' + w.name])), RF.warehouseId, (v) => { RF.warehouseId = v; st.page = 0; draw(); }, { 'aria-label': 'Filter gudang' })) : null,
+        h('div', { style: 'min-width:170px' }, selectEl([['', 'Opening & Closing'], ['OPENING', 'Opening'], ['CLOSING', 'Closing']], RF.session, (v) => { RF.session = v; st.page = 0; draw(); }, { 'aria-label': 'Filter sesi' }))), list));
+      function draw() {
+        const q = RF.q.trim().toLowerCase();
+        const rows = runs.filter((r) => (!RF.warehouseId || r.warehouseId === RF.warehouseId) && (!RF.session || r.session === RF.session) && (!q || (r.warehouseId + ' ' + r.runId).toLowerCase().indexOf(q) >= 0));
+        clear(list);
+        if (!rows.length) { list.appendChild(emptyState('history', runs.length ? 'Tidak ada yang cocok' : 'Belum ada riwayat', runs.length ? 'Ubah kata kunci atau filter.' : 'Belum ada checklist yang dibuka.')); return; }
+        list.appendChild(paged(rows, 25, st, (slice) => table([
+          { label: 'Tanggal', render: (r) => h('div', { class: 'cell-main' }, h('b', { text: fmtDate(r.date) }), h('small', { text: SESSION_LABEL[r.session] || r.session })) },
+          { label: 'Gudang', render: (r) => h('b', { text: r.warehouseId }) },
+          { label: 'Status', render: (r) => runPill(r) },
+          { label: 'Diperbarui', render: (r) => fmtDT(r.updatedAt) },
+          { label: 'ID checklist', render: (r) => h('span', { class: 'code', text: r.runId }) },
+          { label: '', render: (r) => h('button', { class: 'btn xs', type: 'button', onclick: () => openRunDetail(r) }, icon('eye', 'sm'), 'Detail') }
+        ], slice, 'Riwayat checklist')));
+      }
+      st.draw = draw; draw();
+    }).catch((e) => { clear(out).appendChild(h('div', { class: 'card' }, errorState(e, route))); });
+  }
+
+  /* ============================ MANAJEMEN ============================ */
+  async function loadManage(force) { if (!force && A.manage) return A.manage; A.manage = await api('manage.get'); return A.manage; }
+  function managePage(page, title, sub, actionsFn, renderFn) {
+    const head = h('div'); page.appendChild(head);
+    const out = h('div', { style: 'display:flex;flex-direction:column;gap:14px' }); page.appendChild(out);
+    const reload = (force) => {
+      clear(head).appendChild(pageHead(title, sub)); clear(out).appendChild(skeleton(4));
+      loadManage(force).then((m) => { clear(head).appendChild(pageHead(title, sub, actionsFn ? actionsFn(m, () => reload(true)) : [])); clear(out); renderFn(out, m, () => reload(true)); })
+        .catch((e) => { clear(out).appendChild(h('div', { class: 'card' }, errorState(e, () => reload(true)))); });
+    };
+    reload(false);
+  }
+  function myAreas(m) { return can.manager() ? m.areas : m.areas.filter((a) => (S.user.areaIds || []).indexOf(a.id) >= 0); }
+  function areaLabel(m, id) { const a = m.areas.find((x) => x.id === id); return a ? a.name + ' · ' + id : (id || '—'); }
+
+  // ---- User ----
+  const UF = { q: '', role: '', status: '' };
+  function userPage(page) {
+    managePage(page, 'Manajemen User', can.manager() ? 'Kelola akun, role, dan penugasan gudang' : 'Kelola Petugas Gudang dan SPV di area Anda',
+      (m, reload) => [h('button', { class: 'btn pri sm', type: 'button', onclick: () => userForm(m, null, reload) }, icon('plus'), 'Tambah user')],
+      (out, m, reload) => {
+        const st = { page: 0 }; const list = h('div');
+        const roleOpts = Object.keys(ROLE_LABEL).filter((r) => m.users.some((u) => u.role === r));
+        out.appendChild(h('div', { class: 'kpis' },
+          kpi('Total user', m.users.length, 'dalam cakupan Anda'),
+          kpi('Aktif', m.users.filter((u) => u.status === 'active').length, ''),
+          kpi('Nonaktif', m.users.filter((u) => u.status !== 'active').length, ''),
+          kpi('Petugas Gudang', m.users.filter((u) => u.role === 'warehouse_user').length, ''),
+          kpi('SPV', m.users.filter((u) => u.role === 'spv').length, ''),
+          kpi('Manager / Admin', m.users.filter((u) => u.role === 'manager' || u.role === 'national_admin').length, can.manager() ? '' : 'tidak ditampilkan untuk SPV')));
+        out.appendChild(h('div', { class: 'card' }, h('div', { class: 'toolbar' },
+          searchBox(UF.q, (v) => { UF.q = v; st.page = 0; draw(); }, 'Cari nama atau email…'),
+          h('div', { style: 'min-width:170px' }, selectEl([['', 'Semua role']].concat(roleOpts.map((k) => [k, ROLE_LABEL[k]])), UF.role, (v) => { UF.role = v; st.page = 0; draw(); }, { 'aria-label': 'Filter role' })),
+          h('div', { style: 'min-width:150px' }, selectEl([['', 'Semua status'], ['active', 'Aktif'], ['inactive', 'Nonaktif']], UF.status, (v) => { UF.status = v; st.page = 0; draw(); }, { 'aria-label': 'Filter status' }))), list));
+        if (role() === 'spv') out.appendChild(note('info', 'info', 'Sebagai SPV, Anda hanya melihat dan mengelola Petugas Gudang di gudang area Anda. Akun Manager dan Internal Audit tidak ditampilkan.'));
+        function draw() {
+          const q = UF.q.toLowerCase();
+          const rows = m.users.filter((u) => (!UF.role || u.role === UF.role) && (!UF.status || u.status === UF.status) && (!q || (u.name + ' ' + u.email).toLowerCase().indexOf(q) >= 0)).sort((a, b) => String(a.name).localeCompare(String(b.name)));
+          clear(list);
+          if (!rows.length) { list.appendChild(emptyState('users', m.users.length ? 'Tidak ada user yang cocok' : 'Belum ada user', m.users.length ? 'Ubah kata kunci atau filter.' : '')); return; }
+          list.appendChild(paged(rows, 25, st, (slice) => table([
+            { label: 'Nama', render: (u) => h('div', { style: 'display:flex;gap:10px;align-items:center' }, h('div', { class: 'avatar', style: 'width:34px;height:34px;font-size:12px', text: initials(u.name) }), h('div', { class: 'cell-main' }, h('b', { text: u.name }), h('small', { text: u.email }))) },
+            { label: 'Role', render: (u) => pill(ROLE_LABEL[u.role] || u.role, u.role === 'auditor' ? 'p-audit' : u.role === 'warehouse_user' ? 'p-muted' : 'p-info') },
+            { label: 'Cakupan', render: (u) => u.role === 'spv' ? 'Area ' + (u.areaIds.join(', ') || '—') : ['national_admin', 'manager', 'auditor'].indexOf(u.role) >= 0 ? 'Semua gudang' : (u.warehouseIds.join(', ') || '—') },
+            { label: 'Status', render: (u) => u.status === 'active' ? pill('Aktif', 'p-ok', true) : pill('Nonaktif', 'p-muted', true) },
+            { label: '', render: (u) => h('button', { class: 'btn xs', type: 'button', onclick: () => userForm(m, u, reload) }, icon('edit', 'sm'), 'Ubah') }
+          ], slice, 'Daftar user')));
+        }
+        st.draw = draw; draw();
+      });
+  }
+  function userForm(m, u, reload) {
+    const v = u ? { userId: u.userId, email: u.email, name: u.name, role: u.role, warehouseIds: u.warehouseIds.slice(), areaIds: u.areaIds.slice(), status: u.status }
+      : { userId: '', email: '', name: '', role: 'warehouse_user', warehouseIds: [], areaIds: [], status: 'active' };
+    const roles = can.manager() ? Object.keys(ROLE_LABEL) : ['warehouse_user', 'spv']; // sesuai aturan user.save di backend
+    const isSelf = u && String(u.email).toLowerCase() === String(S.user.email).toLowerCase();
+    const err = h('div');
+    const nameI = h('input', { class: 'input', value: v.name, autocomplete: 'off' }); nameI.addEventListener('input', () => { v.name = nameI.value; });
+    const emailI = h('input', { class: 'input', type: 'email', value: v.email, autocomplete: 'off', inputmode: 'email' }); emailI.addEventListener('input', () => { v.email = emailI.value; });
+    const scope = h('div');
+    const drawScope = () => {
+      clear(scope);
+      if (v.role === 'warehouse_user') scope.appendChild(h('div', { class: 'field' }, 'Gudang yang ditugaskan', m.warehouses.length ? h('div', { class: 'checks' }, m.warehouses.map((w) => checkBox(w.id + ' · ' + w.name, v.warehouseIds, w.id))) : h('small', { text: 'Tidak ada gudang dalam cakupan Anda.' }), h('small', { text: 'Minimal satu gudang.' })));
+      else if (v.role === 'spv') scope.appendChild(h('div', { class: 'field' }, 'Area tanggung jawab', h('div', { class: 'checks' }, myAreas(m).map((a) => checkBox(a.name + ' (' + a.id + ')', v.areaIds, a.id))), h('small', { text: 'SPV dapat mengakses semua gudang di area ini.' })));
+      else scope.appendChild(note('info', 'info', (ROLE_LABEL[v.role] || v.role) + (v.role === 'auditor' ? ' memiliki akses hanya-baca ke semua gudang.' : ' memiliki akses ke semua gudang.')));
+    };
+    drawScope();
+    const segHolder = h('div');
+    const drawSeg = () => clear(segHolder).appendChild(segmented([['active', 'Aktif'], ['inactive', 'Nonaktif']], v.status, (x) => { v.status = x; drawSeg(); }, 'Status user'));
+    drawSeg();
+    const body = h('div', { style: 'display:flex;flex-direction:column;gap:14px' },
+      field('Nama lengkap', nameI),
+      field('Email Google', emailI, u ? 'Email akun yang sudah pernah login tidak dapat diganti.' : 'Akun Gmail yang akan dipakai untuk login.'),
+      field('Role', selectEl(roles.map((r) => [r, ROLE_LABEL[r]]), v.role, (x) => { v.role = x; drawScope(); })),
+      scope,
+      h('div', { class: 'field' }, 'Status', segHolder, h('small', { text: 'User nonaktif langsung ditolak saat login atau mengakses aplikasi (maks. ±1 menit).' })),
+      isSelf ? note('warn', 'alert', 'Ini akun Anda sendiri. Mengubah role atau menonaktifkannya dapat membuat Anda kehilangan akses.') : null,
+      err);
+    const save = h('button', { class: 'btn pri sm', type: 'button' }, icon('check'), 'Simpan');
+    const sh = openSheet(u ? 'Ubah user' : 'Tambah user', body, [h('button', { class: 'btn sm', type: 'button', onclick: () => sh.close() }, 'Batal'), save]);
+    save.addEventListener('click', () => {
+      clear(err);
+      const msg = !v.name.trim() ? 'Nama wajib diisi.' : !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email.trim()) ? 'Email tidak valid.' : v.role === 'warehouse_user' && !v.warehouseIds.length ? 'Pilih minimal satu gudang.' : v.role === 'spv' && !v.areaIds.length ? 'Pilih minimal satu area.' : '';
+      if (msg) { err.appendChild(note('err', 'alert', msg)); return; }
+      withBusy(save, async () => {
+        try {
+          await api('user.save', { userId: v.userId, email: v.email.trim(), name: v.name.trim(), role: v.role, warehouseIds: v.role === 'warehouse_user' ? v.warehouseIds : [], areaIds: v.role === 'spv' ? v.areaIds : [], status: v.status });
+          sh.close(); toast('User ' + v.name.trim() + ' tersimpan.'); reload();
+        } catch (e) { err.appendChild(note('err', 'alert', e.message || 'Gagal menyimpan.')); }
+      });
+    });
+  }
+
+  // ---- Gudang ----
+  function gudangPage(page) {
+    managePage(page, 'Manajemen Gudang', 'Gudang aktif, area, dan folder Google Drive dokumentasi',
+      (m, reload) => [h('button', { class: 'btn pri sm', type: 'button', onclick: () => gudangForm(m, null, reload) }, icon('plus'), 'Tambah gudang')],
+      (out, m, reload) => {
+        let q = ''; const list = h('div');
+        out.appendChild(h('div', { class: 'card' }, h('div', { class: 'toolbar' }, searchBox('', (x) => { q = x.toLowerCase(); draw(); }, 'Cari kode atau nama gudang…')), list));
+        function draw() {
+          clear(list);
+          const rows = m.warehouses.filter((w) => !q || (w.id + ' ' + w.name).toLowerCase().indexOf(q) >= 0);
+          if (!rows.length) { list.appendChild(emptyState('warehouse', 'Tidak ada gudang', '')); return; }
+          list.appendChild(table([
+            { label: 'Gudang', render: (w) => h('div', { class: 'cell-main' }, h('b', { text: w.id }), h('small', { text: w.name })) },
+            { label: 'Area', render: (w) => w.areaId ? pill(areaLabel(m, w.areaId), 'p-muted') : pill('Belum ada area', 'p-warn') },
+            { label: 'Folder Drive', render: (w) => h('span', { class: 'code', title: w.driveFolderId || '', text: w.driveFolderId ? w.driveFolderId.slice(0, 6) + '…' + w.driveFolderId.slice(-4) : '—' }) },
+            { label: '', render: (w) => h('div', { style: 'display:flex;gap:6px;justify-content:flex-end' },
+              h('button', { class: 'btn xs', type: 'button', onclick: () => gudangForm(m, w, reload) }, icon('edit', 'sm'), 'Ubah'),
+              h('button', { class: 'btn xs danger', type: 'button', onclick: async () => {
+                if (!(await confirmDialog('Nonaktifkan ' + w.id + '?', 'Gudang tidak akan muncul lagi untuk checklist dan dashboard. Data dan foto lama tetap tersimpan. Tindakan ini tercatat di audit log.', 'Nonaktifkan'))) return;
+                try { await api('warehouse.deactivate', { warehouseId: w.id }); toast(w.id + ' dinonaktifkan.'); reload(); } catch (e) { toast(e.message || 'Gagal menonaktifkan.', 'err'); }
+              } }, 'Nonaktifkan')) }
+          ], rows, 'Daftar gudang'));
+        }
+        draw();
+        out.appendChild(note('info', 'info', 'Menyimpan ulang gudang yang pernah dinonaktifkan dengan kode yang sama akan mengaktifkannya kembali.'));
+      });
+  }
+  function gudangForm(m, w, reload) {
+    const areas = myAreas(m);
+    const v = w ? { id: w.id, name: w.name, areaId: w.areaId || (areas[0] || {}).id || '', folder: w.driveFolderId || '' } : { id: '', name: '', areaId: (areas[0] || {}).id || '', folder: '' };
+    const err = h('div');
+    const idI = h('input', { class: 'input', value: v.id, maxlength: '3', autocomplete: 'off', style: 'text-transform:uppercase', readonly: w ? true : null }); idI.addEventListener('input', () => { v.id = idI.value.toUpperCase(); });
+    const nameI = h('input', { class: 'input', value: v.name }); nameI.addEventListener('input', () => { v.name = nameI.value; });
+    const folderI = h('input', { class: 'input', value: v.folder, autocomplete: 'off', spellcheck: 'false' });
+    folderI.addEventListener('input', () => { const m2 = folderI.value.trim().match(/\/folders\/([A-Za-z0-9_-]+)/); v.folder = m2 ? m2[1] : folderI.value.trim(); });
+    const body = h('div', { style: 'display:flex;flex-direction:column;gap:14px' },
+      field('Kode gudang', idI, w ? 'Kode tidak dapat diubah.' : 'Tepat 3 huruf, misalnya SMD. Kode lain akan membuat upload foto gagal.'),
+      field('Nama gudang', nameI),
+      field('Area', areas.length ? selectEl(areas.map((a) => [a.id, a.name + ' (' + a.id + ')']), v.areaId, (x) => { v.areaId = x; }) : h('span', { class: 'muted', text: 'Belum ada area. Tambahkan area terlebih dahulu.' })),
+      field('ID folder Google Drive', folderI, 'Folder harus berada di dalam folder utama SNN WAREHOUSE CONTROL dan berstatus privat. Boleh tempel link folder.'),
+      err);
+    const save = h('button', { class: 'btn pri sm', type: 'button' }, icon('check'), 'Simpan');
+    const sh = openSheet(w ? 'Ubah gudang ' + w.id : 'Tambah gudang', body, [h('button', { class: 'btn sm', type: 'button', onclick: () => sh.close() }, 'Batal'), save]);
+    save.addEventListener('click', () => {
+      clear(err);
+      const msg = (!w && !/^[A-Z]{3}$/.test(v.id)) ? 'Kode gudang harus tepat 3 huruf (A–Z).' : !v.name.trim() ? 'Nama wajib diisi.' : !v.areaId ? 'Pilih area.' : !v.folder ? 'ID folder Drive wajib diisi.' : '';
+      if (msg) { err.appendChild(note('err', 'alert', msg)); return; }
+      withBusy(save, async () => {
+        try { await api('warehouse.save', { warehouseId: v.id, name: v.name.trim(), areaId: v.areaId, driveFolderId: v.folder }); sh.close(); toast('Gudang ' + v.id + ' tersimpan.'); reload(); }
+        catch (e) { err.appendChild(note('err', 'alert', e.message || 'Gagal menyimpan.')); }
+      });
+    });
+  }
+
+  // ---- Area ----
+  function areaPage(page) {
+    managePage(page, 'Manajemen Area', 'Pengelompokan gudang untuk cakupan SPV',
+      (m, reload) => [h('button', { class: 'btn pri sm', type: 'button', onclick: () => areaForm(null, reload) }, icon('plus'), 'Tambah area')],
+      (out, m, reload) => {
+        if (!m.areas.length) out.appendChild(h('div', { class: 'card' }, emptyState('area', 'Belum ada area', '')));
+        else out.appendChild(h('div', { class: 'card' }, table([
+          { label: 'Area', render: (a) => h('div', { class: 'cell-main' }, h('b', { text: a.name }), h('small', { text: a.id })) },
+          { label: 'Gudang', render: (a) => { const ws = m.warehouses.filter((w) => w.areaId === a.id); return ws.length ? ws.map((w) => w.id).join(', ') : h('span', { class: 'muted', text: 'Belum ada gudang' }); } },
+          { label: 'SPV aktif', num: true, render: (a) => m.users.filter((u) => u.role === 'spv' && u.status === 'active' && u.areaIds.indexOf(a.id) >= 0).length },
+          { label: '', render: (a) => h('button', { class: 'btn xs', type: 'button', onclick: () => areaForm(a, reload) }, icon('edit', 'sm'), 'Ubah') }
+        ], m.areas, 'Daftar area')));
+        out.appendChild(note('info', 'info', 'Menonaktifkan area belum didukung backend. Untuk memindahkan gudang ke area lain, ubah area di Manajemen Gudang.'));
+      });
+  }
+  function areaForm(a, reload) {
+    const v = a ? { id: a.id, name: a.name } : { id: '', name: '' };
+    const err = h('div');
+    const idI = h('input', { class: 'input', value: v.id, style: 'text-transform:uppercase', readonly: a ? true : null, maxlength: '20' }); idI.addEventListener('input', () => { v.id = idI.value.toUpperCase(); });
+    const nameI = h('input', { class: 'input', value: v.name }); nameI.addEventListener('input', () => { v.name = nameI.value; });
+    const save = h('button', { class: 'btn pri sm', type: 'button' }, icon('check'), 'Simpan');
+    const sh = openSheet(a ? 'Ubah area' : 'Tambah area', h('div', { style: 'display:flex;flex-direction:column;gap:14px' }, field('Kode area', idI, a ? 'Kode tidak dapat diubah.' : '2–20 huruf/angka, misalnya EAST.'), field('Nama area', nameI), err),
+      [h('button', { class: 'btn sm', type: 'button', onclick: () => sh.close() }, 'Batal'), save]);
+    save.addEventListener('click', () => {
+      clear(err);
+      if (!/^[A-Z0-9_-]{2,20}$/.test(v.id) || !v.name.trim()) { err.appendChild(note('err', 'alert', 'Kode (2–20 huruf/angka) dan nama wajib diisi.')); return; }
+      withBusy(save, async () => {
+        try { await api('area.save', { areaId: v.id, name: v.name.trim() }); sh.close(); toast('Area ' + v.id + ' tersimpan.'); reload(); }
+        catch (e) { err.appendChild(note('err', 'alert', e.message || 'Gagal menyimpan.')); }
+      });
+    });
+  }
+
+  // ---- Template checklist ----
+  function templatePage(page) {
+    managePage(page, 'Template Checklist', 'Item pemeriksaan Opening dan Closing', null, (out, m, reload) => {
+      out.appendChild(note('info', 'info', can.manager()
+        ? 'Perubahan disimpan sebagai versi baru dan menggantikan versi aktif. Checklist yang sudah dibuka tetap memakai versinya. Item wajib perusahaan tidak dapat dihapus.'
+        : 'Perubahan oleh SPV disimpan sebagai versi khusus area Anda. Item wajib perusahaan tidak dapat diubah atau dihapus.'));
+      if (!m.templates.length) { out.appendChild(h('div', { class: 'card' }, emptyState('template', 'Belum ada template', ''))); return; }
+      ['OPENING', 'CLOSING'].forEach((s) => m.templates.filter((t) => t.session === s).forEach((t) => {
+        out.appendChild(h('div', { class: 'card' },
+          h('div', { class: 'card-h' }, h('div', {}, h('h2', { text: t.name }), h('p', { text: SESSION_LABEL[s] + ' · ' + t.templateId + ' · versi ' + t.version + ' · ' + t.items.length + ' item' })),
+            can.readonly() ? null : h('button', { class: 'btn xs', type: 'button', onclick: () => templateForm(m, t, reload) }, icon('edit', 'sm'), 'Ubah')),
+          h('div', { class: 'list' }, t.items.map((i) => h('div', { class: 'lrow' }, h('span', { class: 'num', text: i.sort || '' }),
+            h('div', { class: 'grow' }, h('b', { text: i.name }), h('small', { text: i.code + (i.areaIds.length ? ' · area ' + i.areaIds.join(', ') : '') + (i.warehouseIds.length ? ' · gudang ' + i.warehouseIds.join(', ') : '') })),
+            i.required ? pill('Wajib', 'p-info') : pill('Opsional', 'p-muted'))))));
+      }));
+    });
+  }
+  function templateForm(m, t, reload) {
+    const manager = can.manager();
+    const items = t.items.map((i) => ({ code: i.code, name: i.name, required: i.required, orig: i.required, areaIds: i.areaIds.slice(), warehouseIds: i.warehouseIds.slice(), isNew: false }));
+    let name = t.name;
+    const err = h('div'); const list = h('div', { style: 'display:flex;flex-direction:column;gap:10px' });
+    function draw() {
+      clear(list);
+      items.forEach((it, idx) => {
+        const locked = !manager && it.orig;
+        const ni = h('input', { class: 'input', value: it.name, readonly: locked ? true : null, 'aria-label': 'Nama item ' + (idx + 1) }); ni.addEventListener('input', () => { it.name = ni.value; });
+        const ri = h('input', { type: 'checkbox', disabled: it.orig ? true : null }); ri.checked = it.required; ri.addEventListener('change', () => { it.required = ri.checked; });
+        const row = h('div', { class: 'item', style: 'gap:10px;padding:12px' },
+          h('div', { style: 'display:flex;gap:8px;align-items:center' }, h('span', { class: 'num', text: idx + 1 }), h('div', { style: 'flex:1;min-width:0' }, ni),
+            h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Naikkan urutan', disabled: idx === 0 ? true : null, onclick: () => { items.splice(idx - 1, 0, items.splice(idx, 1)[0]); draw(); } }, icon('up', 'sm')),
+            h('button', { class: 'icon-btn', type: 'button', 'aria-label': 'Hapus item', title: it.orig ? 'Item wajib tidak dapat dihapus' : 'Hapus item', disabled: it.orig ? true : null, onclick: () => { items.splice(idx, 1); draw(); } }, icon('trash', 'sm'))),
+          h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap;align-items:center' },
+            h('label', { class: 'check' + (it.required ? ' on' : '') }, ri, 'Item wajib'),
+            it.isNew ? pill('Item baru', 'p-info') : h('span', { class: 'code', text: 'kode lama ' + it.code }),
+            locked ? pill('Dikunci untuk SPV', 'p-muted') : null));
+        if (manager && m.areas.length) row.appendChild(h('div', { class: 'field' }, h('small', { text: 'Berlaku untuk area (kosongkan = semua area)' }), h('div', { class: 'checks' }, m.areas.map((a) => checkBox(a.id, it.areaIds, a.id)))));
+        list.appendChild(row);
+      });
+    }
+    draw();
+    const nameI = h('input', { class: 'input', value: name }); nameI.addEventListener('input', () => { name = nameI.value; });
+    const body = h('div', { style: 'display:flex;flex-direction:column;gap:14px' }, field('Nama template', nameI), h('div', { class: 'sec', text: 'Item pemeriksaan' }), list,
+      h('button', { class: 'btn sm', type: 'button', onclick: () => { items.push({ code: '', name: '', required: false, orig: false, areaIds: [], warehouseIds: [], isNew: true }); draw(); } }, icon('plus'), 'Tambah item'),
+      note('warn', 'info', 'Kode item (ITM01, ITM02, …) pada versi baru disusun ulang sesuai urutan. Nama file foto berikutnya memakai kode baru.'), err);
+    const save = h('button', { class: 'btn pri sm', type: 'button' }, icon('check'), 'Simpan sebagai versi baru');
+    const sh = openSheet('Ubah ' + t.name, body, [h('button', { class: 'btn sm', type: 'button', onclick: () => sh.close() }, 'Batal'), save]);
+    save.addEventListener('click', () => {
+      clear(err);
+      if (!items.length) { err.appendChild(note('err', 'alert', 'Template harus memiliki minimal satu item.')); return; }
+      if (items.some((i) => !i.name.trim())) { err.appendChild(note('err', 'alert', 'Nama item tidak boleh kosong.')); return; }
+      withBusy(save, async () => {
+        try {
+          const d = await api('checklist.save', { templateId: t.templateId, name: name.trim() || t.name, items: items.map((i) => ({ code: i.isNew ? '' : i.code, name: i.name.trim(), required: i.required, areaIds: i.areaIds, warehouseIds: i.warehouseIds, active: true })) });
+          sh.close(); toast('Template tersimpan sebagai ' + d.templateId + '.'); reload();
+        } catch (e) { err.appendChild(note('err', 'alert', e.message || 'Gagal menyimpan.')); }
+      });
+    });
+  }
+
+  // ---- Audit log ----
+  const AF = { q: '', action: '', result: '' };
+  function auditPage(page) {
+    page.appendChild(pageHead('Audit Log', 'Jejak aktivitas sistem · hanya-baca · 500 catatan terakhir', [h('button', { class: 'btn sm', type: 'button', onclick: route }, icon('refresh', 'sm'), 'Muat ulang')]));
+    const out = h('div', {}, skeleton(6)); page.appendChild(out);
+    api('audit.list').then((d) => {
+      clear(out);
+      const logs = d.logs || [];
+      const actions = logs.map((l) => l.action).filter((x, i, a) => x && a.indexOf(x) === i).sort();
+      const st = { page: 0 }; const list = h('div');
+      out.appendChild(h('div', { class: 'card' }, h('div', { class: 'toolbar' },
+        searchBox(AF.q, (v) => { AF.q = v; st.page = 0; draw(); }, 'Cari email, gudang, atau target…'),
+        h('div', { style: 'min-width:170px' }, selectEl([['', 'Semua aksi']].concat(actions.map((a) => [a, a])), AF.action, (v) => { AF.action = v; st.page = 0; draw(); }, { 'aria-label': 'Filter aksi' })),
+        h('div', { style: 'min-width:150px' }, selectEl([['', 'Semua hasil'], ['OK', 'OK'], ['DENIED', 'Ditolak'], ['ERROR', 'Error / gagal']], AF.result, (v) => { AF.result = v; st.page = 0; draw(); }, { 'aria-label': 'Filter hasil' }))), list));
+      const resPill = (r) => r === 'OK' ? pill('OK', 'p-ok') : r === 'DENIED' ? pill('Ditolak', 'p-bad') : (r === 'ERROR' || r === 'FAILED') ? pill('Error', 'p-warn') : pill(r || '—', 'p-muted');
+      function draw() {
+        const q = AF.q.toLowerCase();
+        const rows = logs.filter((l) => (!AF.action || l.action === AF.action) && (!AF.result || l.result === AF.result || (AF.result === 'ERROR' && l.result === 'FAILED')) && (!q || [l.actor_email, l.warehouse_id, l.target_id, l.detail].join(' ').toLowerCase().indexOf(q) >= 0));
+        clear(list);
+        if (!rows.length) { list.appendChild(emptyState('shield', 'Tidak ada catatan', logs.length ? 'Ubah kata kunci atau filter.' : '')); return; }
+        list.appendChild(paged(rows, 50, st, (slice) => table([
+          { label: 'Waktu', render: (l) => h('span', { style: 'white-space:nowrap', text: fmtDT(l.at) }) },
+          { label: 'Pengguna', render: (l) => l.actor_email },
+          { label: 'Aksi', render: (l) => h('span', { class: 'code', style: 'color:var(--ink)', text: l.action }) },
+          { label: 'Gudang', render: (l) => l.warehouse_id },
+          { label: 'Hasil', render: (l) => resPill(l.result) },
+          { label: 'Detail', render: (l) => h('span', { class: 'muted', text: [l.target_id, l.detail].filter(Boolean).join(' · ') }) }
+        ], slice, 'Audit log')));
+      }
+      st.draw = draw; draw();
+    }).catch((e) => { clear(out).appendChild(h('div', { class: 'card' }, errorState(e, route))); });
+  }
+
+  const PAGES = { dashboard: dashPage, foto: fotoPage, riwayat: riwayatPage, user: userPage, gudang: gudangPage, area: areaPage, template: templatePage, audit: auditPage };
 })();
 </script>
 </body>
